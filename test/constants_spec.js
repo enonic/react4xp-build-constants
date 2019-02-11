@@ -1,6 +1,6 @@
 import path from 'path';
 import { expect } from 'chai';
-//import deepFreeze from 'deep-freeze';
+import deepFreeze from 'deep-freeze';
 
 import getConstants from '../lib';
 
@@ -23,13 +23,13 @@ describe("constants", ()=>{
 
 
         it("can override single values", () => {
-            const constants = getConstants(dirName, {BUILD_ENV: "production"});
+            const constants = getConstants(dirName, deepFreeze({BUILD_ENV: "production"}));
             expect(constants.BUILD_ENV).to.equal("production");
         });
 
 
         it("can override the JSON shared constants file name (full path) and read constants from that", () => {
-            const constants = getConstants(dirName, {JSON_CONSTANTS_FILE: path.join(dirName, "usethisinstead.json")});
+            const constants = getConstants(dirName, deepFreeze({JSON_CONSTANTS_FILE: path.join(dirName, "usethisinstead.json")}));
             expect(constants.EXTERNALS["react"]).to.equal(undefined);
             expect(constants.EXTERNALS["react-dom"]).to.equal(undefined);
             expect(constants.EXTERNALS["react-dom/server"]).to.equal(undefined);

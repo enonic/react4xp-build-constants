@@ -4,11 +4,12 @@
     "description": "Shared constants for buildtime component libraries for Enonic React4XP",
     "main": "lib/index.js",
     "scripts": {
-        "compile": "rimraf lib/* && babel src -d lib",
+        "clean": "rimraf lib",
+        "compile": "babel src -d lib --no-comments",
         "cpjson": "copyfiles --flat src/*.json lib",
         "prepare": "npm run checkall",
         "eslint": "node_modules/eslint/bin/eslint.js ./*.js src/",
-        "checkall": "npm run eslint && npm run compile && npm run cpjson && npm run test",
+        "checkall": "npm run eslint && npm run clean && npm run compile && npm run cpjson && npm run test",
         "test": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\""
     },
     "repository": {
@@ -36,7 +37,7 @@
         "deep-freeze": "^0.0.1",
         "eslint": "3.14.0",
         "eslint-plugin-react": "^7.12.4",
-        "mocha": "3.2.0",
+        "mocha": "^5.2.0",
         "rimraf": "^2.6.3"
     },
     "babel": {
