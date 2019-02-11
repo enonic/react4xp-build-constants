@@ -1,6 +1,6 @@
 # React4XP build constants
 
-`index.js` exposes the method `getConstants(rootDir [, overrideParams])`, which returns shared constants for buildtime component libraries for Enonic React4XP and its multiple webpack build steps. This mainly defines the default expected source and build folder structure for React4xp, for the other librarified build steps to work.
+`index.js` exposes the method `getConstants(rootDir [, overrideParams])`, which returns shared constants for buildtime component libraries for Enonic React4XP and its multiple build steps - mainly in **Webpack**. This mainly defines the default expected source and build folder structure for React4xp, for the other librarified build steps to work.
 
 `getConstants` needs a `rootDir` argument (string), which is the root directory of the webpack project running it. Supplying `__dirname` should do the trick.
 

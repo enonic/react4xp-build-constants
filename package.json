@@ -1,6 +1,6 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "0.0.1",
+    "version": "1.0.4",
     "description": "Shared constants for buildtime component libraries for Enonic React4XP",
     "main": "lib/index.js",
     "scripts": {
@@ -9,7 +9,7 @@
         "cpjson": "copyfiles --flat src/*.json lib",
         "prepare": "npm run checkall",
         "eslint": "node_modules/eslint/bin/eslint.js ./*.js src/",
-        "checkall": "npm run eslint && npm run clean && npm run compile && npm run cpjson && npm run test",
+        "checkall": "npm run eslint && npm run clean && npm run cpjson && npm run compile && npm run test",
         "test": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\""
     },
     "repository": {
