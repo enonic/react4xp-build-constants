@@ -1,6 +1,6 @@
 # React4XP build constants
 
-`webpack.config.constants.json` has the method `getConstants(rootDir [, overrideParams])`, which returns shared constants for buildtime component libraries for Enonic React4XP and its multiple webpack build steps. This mainly defines the default expected source and build folder structure for React4xp, for the other librarified build steps to work.
+`constants.js` exposes the method `getConstants(rootDir [, overrideParams])`, which returns shared constants for buildtime component libraries for Enonic React4XP and its multiple webpack build steps. This mainly defines the default expected source and build folder structure for React4xp, for the other librarified build steps to work.
 
 `getConstants` needs a `rootDir` argument (string), which is the root directory of the webpack project running it. Supplying `__dirname` should do the trick.
 
@@ -27,6 +27,6 @@ It returns an object with these attributes and default values (slashes depend on
   
   - `LIBRARY_NAME = "React4xp"`: The name of the runnable library, used for runtime calls in both the client and during serverside rendering 
   
-  - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available to both client and react serverside-rendering. Defined in `webpack.config.constants.json`, in the EXTERNALS field.  
+  - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available to both client and react serverside-rendering. Defined in `constants.json`, in the `EXTERNALS` field.  
 
-Includes `webpack.config.constants.json`, for constants that need to be used in more places (and programming languages), and therefore need to be available in a separate and generally-readable file. This file can be overridden so you can roll your own constants JSON file, by supplying the file name (full path) as `JSON_CONSTANTS_FILE` in `overrideParameters`. It's probably better to override this source file than to override only the `EXTERNALS` value above.
+Includes `constants.json`, for constants that need to be used in more places (and programming languages), and therefore need to be available in a separate and generally-readable file. This file can be overridden so you can roll your own constants JSON file, by supplying the file name (full path) as `JSON_CONSTANTS_FILE` in `overrideParameters`. It's probably better to override this entire source file than to override only the `EXTERNALS` value above.

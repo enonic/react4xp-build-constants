@@ -2,41 +2,39 @@
     "name": "react4xp-buildconstants",
     "version": "0.0.1",
     "description": "Shared constants for buildtime component libraries for Enonic React4XP",
+    "main": "lib/index.js",
     "scripts": {
       "compile": "rimraf lib/* && babel src -d lib",
       "prepublish": "npm run checkall",
       "eslint": "eslint ./*.js src/ test/",
-      "checkall": "npm run eslint && npm run compile"
+      "checkall": "npm run eslint && npm run compile && npm run test",
+      "test": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\""
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/enonic/starter-react.git"
+        "url": "git+https://github.com/enonic/react4xp-buildconstants.git"
     },
-    "author": "",
-    "license": "ISC",
+    "author": "Espen Norderud",
+    "license": "MIT",
     "bugs": {
-        "url": "https://github.com/enonic/starter-react/issues"
+        "url": "https://github.com/enonic/react4xp-buildconstants/issues"
     },
-    "homepage": "https://github.com/enonic/starter-react#readme",
-    "dependencies": {
-    },
+    "homepage": "https://github.com/enonic/react4xp-buildconstants",
+    "dependencies": {},
     "devDependencies": {
         "babel-cli": "^6.26.0",
         "babel-core": "^6.26.3",
-        "babel-loader": "^7.1.4",
+        "babel-eslint": "^7.1.1",
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-polyfill": "6.20.0",
         "babel-preset-es2015": "^6.24.1",
-        "babel-preset-react": "^6.24.1",
         "babel-preset-stage-0": "^6.24.1",
         "babel-register": "^6.26.0",
-        "chunks-2-json-webpack-plugin": "0.0.3",
-        "css-loader": "^0.28.11",
-        "es6-set-and-map": "^1.0.5",
-        "less-loader": "^4.1.0",
+        "mocha": "3.2.0",
         "rimraf": "^2.6.3",
-        "style-loader": "^0.21.0",
-        "webpack": "^4.28.2",
-        "webpack-cli": "^3.1.2"
+        "chai": "3.5.0",
+        "deep-freeze": "^0.0.1",
+        "eslint": "3.14.0"
     },
     "babel": {
         "presets": [
