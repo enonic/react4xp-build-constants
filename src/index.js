@@ -72,4 +72,4 @@ const getConstants = (rootDir, overrideParameters) => {
         overrideParameters || {});
 };
 
-export default getConstants;
+module.exports = getConstants;

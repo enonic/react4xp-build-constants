@@ -1,6 +1,6 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Shared constants for buildtime component libraries for Enonic React4XP",
     "main": "lib/index.js",
     "scripts": {
