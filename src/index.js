@@ -1,11 +1,15 @@
 const path = require('path');
-//const fs = require('fs');
+const fs = require('fs');
+const jsonConstants = require('./constants.json');
 
 // TODO: Document the overrideParameters here too! Preferrably, asciidoc.
 const getConstants = (rootDir, overrideParameters) => {
+    overrideParameters = overrideParameters || {};
 
     // Shared constants used in more places and languages, and therefore need to be available in a separate and generally-readable file:
-    const JSON_CONSTANTS = require(overrideParameters.JSON_CONSTANTS_FILE || './constants.json');
+    const JSON_CONSTANTS =  overrideParameters.JSON_CONSTANTS_FILE ?
+        JSON.parse(fs.readFileSync(overrideParameters.JSON_CONSTANTS_FILE)) :
+        jsonConstants;
 
     const BUILD_ENV = /*'production'; /*/ 'development'; //*/
 
@@ -17,7 +21,9 @@ const getConstants = (rootDir, overrideParameters) => {
 
     const BUILD_MAIN = path.join(rootDir, MAIN);
 
-    const R4X_ENTRY_SUBFOLDER = '_components';   // Special-case subdirectory under /react4xp/. All files under this will be their own chunk, for dynamic, on-demand asset loading of top-level components, which in turn uses shared components chunked under all other subdirectories.
+    // Special-case subdirectory under /react4xp/. All files under this will be their own chunk, for dynamic, on-demand
+    // asset loading of top-level components, which in turn uses shared components chunked under all other subdirectories.
+    const R4X_ENTRY_SUBFOLDER = '_components';
     const R4X_HOME = 'react4xp';
 
     const R4X_TARGETSUBDIR = R4X_HOME;
@@ -54,17 +60,16 @@ const getConstants = (rootDir, overrideParameters) => {
     */
     const EXTERNALS = JSON_CONSTANTS.EXTERNALS;
 
-    module.exports = Object.assign({
+    return Object.assign(
+        {
             SITE,
             SRC_MAIN, SRC_R4X, SRC_SITE, SRC_R4X_ENTRIES,
             R4X_HOME, R4X_TARGETSUBDIR, R4X_ENTRY_SUBFOLDER,
             BUILD_MAIN, BUILD_R4X, BUILD_ENV, RELATIVE_BUILD_R4X,
             LIBRARY_NAME,
-            EXTERNALS
+            EXTERNALS,
         },
-        overrideParameters || {}
-    );
+        overrideParameters || {});
 };
 
-
-module.exports = getConstants;
+export default getConstants;
