@@ -1,14 +1,31 @@
 import path from 'path';
+//import fs from 'fs';
 import { expect } from 'chai';
 
-import getConstants from '../lib';
+import buildConstants from '../lib';
 
 const DIR_NAME = __dirname; // eslint-disable-line no-undef
 
-describe("constants", ()=>{
-    describe(".getConstants", ()=> {
 
-        it("returns an object with constants", () => {
+function verifyFieldsInFile(file, expectedFields) {
+    const producedFields = require(file);
+
+    Object.keys(expectedFields).forEach(key => {
+
+        if (typeof expectedFields[key] === "object") {
+            expect(typeof producedFields[key]).to.equal("object");
+            expect(producedFields[key]).to.deep.equal(expectedFields[key]);
+
+        } else {
+            expect(producedFields[key]).to.equal(expectedFields[key]);
+        }
+    });
+}
+
+describe("constants", ()=>{
+    describe(".buildConstants", ()=> {
+
+        it("builds a constants file with the specified output name", () => {
             const constants = getConstants(DIR_NAME);
             console.log("constants: " + JSON.stringify(constants, null, 2));
 

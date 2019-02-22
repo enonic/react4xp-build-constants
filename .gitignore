@@ -28,6 +28,8 @@ Temporary Items
 ### Gradle ###
 .gradle
 lib/
+test/output/
+
 
 # Ignore Gradle GUI config
 gradle-app.setting
