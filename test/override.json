@@ -1,0 +1,7 @@
+{
+  "BUILD_ENV": "production",
+  "EXTERNALS": {
+    "foo": "foofoo",
+    "bar": "barbar"
+  }
+}

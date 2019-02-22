@@ -1,11 +1,11 @@
 # React4XP build constants
 
-`index.js` exposes the method `getConstants(rootDir [, overrideParams])`, which returns shared constants for buildtime component libraries for Enonic React4XP and its multiple build steps - mainly in **Webpack**. This mainly defines the default expected source and build folder structure for React4xp, for the other librarified build steps to work.
+`index.js` exposes the method `getConstants(rootDir [, overrideJsonFilepath])`, which returns shared constants for buildtime component libraries for Enonic React4XP and its multiple build steps - mainly in **Webpack**. This defines the default expected source and build folder structure for **React4xp**, for the other librarified build steps to work.
 
 `getConstants` needs a `rootDir` argument (string), which is the root directory of the webpack project running it. Supplying `__dirname` should do the trick.
 
-It returns an object with these attributes and default values (slashes depend on file system, should work correctly out of the box). The second `overrideParameters` argument (object) can be supplied with any of the same attributes in order to override specific values in your setup:
- 
+It returns an object with these attributes and default values (slashes depend on file system, should work correctly out of the box). 
+
   - `BUILD_ENV = "development"`: environment variable for production or development
   
   - `SRC_MAIN = "<rootDir>/src/main"`: _full path_ to the folder below which both the main `react4xp` folder and Enonic XP's `resources` and `java` folders are found. 
@@ -29,4 +29,4 @@ It returns an object with these attributes and default values (slashes depend on
   
   - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available to both client and react serverside-rendering. Defined in `constants.json`, in the `EXTERNALS` field.  
 
-Includes `constants.json`, for constants that need to be used in more places (and programming languages), and therefore need to be available in a separate and generally-readable file. This file can be overridden so you can roll your own constants JSON file, by supplying the file name (full path) as `JSON_CONSTANTS_FILE` in `overrideParameters`. It's probably better to override this entire source file than to override only the `EXTERNALS` value above.
+The second `overrideJsonFilepath` argument (string) is the path and filename to a JSON file. This contains a single object. If attributes from this match the attributes above, the values will override the default values. Any other attributes will be added.

@@ -1,17 +1,8 @@
 const path = require('path');
-const fs = require('fs');
-const jsonConstants = require('./constants.json');
+//const fs = require('fs');
 
-// TODO: Document the overrideParameters here too! Preferrably, asciidoc.
-const getConstants = (rootDir, overrideParameters) => {
-    overrideParameters = overrideParameters || {};
-
-    // Shared constants used in more places and languages, and therefore need to be available in a separate and generally-readable file:
-    const JSON_CONSTANTS =  overrideParameters.JSON_CONSTANTS_FILE ?
-        JSON.parse(fs.readFileSync(overrideParameters.JSON_CONSTANTS_FILE)) :
-        jsonConstants;
-
-    const BUILD_ENV = /*'production'; /*/ 'development'; //*/
+const getConstants = (rootDir, overrideJsonFilepath) => {
+    const BUILD_ENV = /*'production'; /*/ 'development';
 
     const SRC_MAIN = path.join(rootDir, 'src', 'main');
     
@@ -58,7 +49,12 @@ const getConstants = (rootDir, overrideParameters) => {
            "amd": "react-dom"
        }
     */
-    const EXTERNALS = JSON_CONSTANTS.EXTERNALS;
+    const EXTERNALS = {
+        "react": "React",
+        "react-dom": "ReactDOM",
+        "react-dom/server": "ReactDOMServer",
+    };
+
 
     return Object.assign(
         {
@@ -69,7 +65,11 @@ const getConstants = (rootDir, overrideParameters) => {
             LIBRARY_NAME,
             EXTERNALS,
         },
-        overrideParameters || {});
+        // Override single constants by supplying path to a JSON file containing an object with the same constant names
+        overrideJsonFilepath ?
+            require(overrideJsonFilepath) :
+            {}
+    );
 };
 
 module.exports = getConstants;
