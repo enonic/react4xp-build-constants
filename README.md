@@ -1,7 +1,13 @@
 # react4xp-buildconstants
 
-`index.js` exposes a default function `(rootDir, outputFile [, overrides])`, which builds an object that's stored in a standard JSON file. This object has shared constants mainly for building **React4XP** and component libraries. It is meant to define the source and target folder structure of Reaxt4XP.
+Generates constants and stores them in a standard JSON file. These constants define the source and target folder structure of a **Reaxt4XP** project, and shared build- and runtime constants needed across its libraries, languages and components.
 
+**Jump to:**
+  - [Install](#install)
+  - [Usage](#usage)
+    - [Parameters](#parameters)
+  - [Output](#output)
+  
 ## Install
 
 NPM or Yarn as usual:
@@ -23,30 +29,30 @@ Standalone, from command-line with Node installed:
 node_modules/react4xp-buildconstants/lib/cli.js "rootDir" "outputFile" ["overrides"]
 ```
 
+
+### Parameters
+
 `rootDir` (string): the root directory of the React4XP project. Must exist.
 
 `outputFile` (string): the name of the JSON file where the constants are stored. If it doesn't end in `.json`, that extension will be added. It can / should be a full path-and-filename (in system-appropriate format). But if it's only a file name, the output file will be created in `rootDir`. Default behavior is to NOT overwrite the file if it already exists, but overwriting can be enabled (see `overwriteConstantsFile` below). Will try to create folder if path doesn't exist.
 
-`overrides` (optional. Object or JSON-parsable string): Override the default value(s) of output attributes by adding the same key and a new value here. This can be done for each __output value__ specifically (see the [output](#output) below), __and/or__ by setting the __base values__: some output values are derived from common base values. Although these base values will not be part of the output, you can override them here to control the several output values at once. Simpler, more consistent, and safer - override the base values if you can! The base attributes to override, and their current default values are:
-```json
-{
-  // Main source code folder, home of core (non-XP-specific) React4xp source code
-  R4X_HOME: "react4xp", 
+`overrides` (optional. Object or JSON-parsable string): Override the default value(s) of output attributes by adding the same key and a new value here. This can be done for each __output value__ specifically (see the [Output](#output) below), __and/or__ by setting the __base values__: some output values are derived from common base values. Although these base values will not be part of the output, you can override them here to control the several output values at once. Simpler, more consistent, and safer - override the base values if you can! 
 
-  // Absolute base source code folder, parent folder of not only R4X_HOME but also Enonic XP's `resources` and `java` folders. 
-  SRC_MAIN: "<rootDir>/src/main",
+The base values are, with the current values:
 
-  // The target runtime folder, into which React4xp components and runtime stuffs are transpiled
-  R4X_TARGETSUBDIR: "react4xp",                   
+  - `R4X_HOME = "react4xp"`: Main source code folder, home of core (non-XP-specific) React4xp source code 
+ 
+  - `SRC_MAIN = "<rootDir>/src/main"`: Absolute base source code folder, parent folder of not only `R4X_HOME` but also Enonic XP's `resources` and `java` folders.
+
+  - `R4X_TARGETSUBDIR = "react4xp"`: The target runtime folder, into which React4xp components and runtime stuffs are transpiled                   
   
-  // Base pre-JAR folder for building, relative to <rootDir>. Parent folder of R4X_TARGETSUBDIR
-  SUBFOLDER_BUILD_MAIN: "build/resources/main"
+  - `SUBFOLDER_BUILD_MAIN = "build/resources/main"`: Base pre-JAR folder for building, relative to `rootDir`. Parent folder of `R4X_TARGETSUBDIR`
 
-  // ------ Modifying these won't change output, only adjust behavior when running:
-  verbose: false, // Some logging when true
-  overwriteConstantsFile: false, // Will overwrite already existing output JSON file if true
-}
-```
+`overrides` can also contain these attributes, which won't change output but adjust behavior when running:
+
+  - `verbose`: Some logging when true
+  
+  - `overwriteConstantsFile`: Will overwrite already existing output JSON file if true
 
 Slashes depend on file system, should work correctly out of the box. Use your system's appropriate paths when overriding.
 
