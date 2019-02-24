@@ -36,30 +36,17 @@ node_modules/react4xp-buildconstants/lib/cli.js "rootDir" "outputFile" ["overrid
 
 `outputFile` (string): the name of the JSON file where the constants are stored. If it doesn't end in `.json`, that extension will be added. It can / should be a full path-and-filename (in system-appropriate format). But if it's only a file name, the output file will be created in `rootDir`. Default behavior is to NOT overwrite the file if it already exists, but overwriting can be enabled (see `overwriteConstantsFile` below). Will try to create folder if path doesn't exist.
 
-`overrides` (optional. Object or JSON-parsable string): Override the default value(s) of output attributes by adding the same key and a new value here. This can be done for each __output value__ specifically (see the [Output](#output) below), __and/or__ by setting the __base values__: some output values are derived from common base values. Although these base values will not be part of the output, you can override them here to control the several output values at once. Simpler, more consistent, and safer - override the base values if you can! 
+`overrides` (optional. Object or JSON-parsable string): Override the default value(s) of output attributes by adding the same key and a new value here. This can be done for each __output value__ specifically, and/or by setting the __base values__ if the output value is derived from one or more common base values. Some but not all base values will be part of [the Output](#output). Overriding base values allow you to control the several output values at once, which can be simpler, more consistent, and safer - recommended. 
 
-The base values are, with the current values:
+Override-able attributes and their default values are:
 
-  - `R4X_HOME = "react4xp"`: Main source code folder, home of core (non-XP-specific) React4xp source code 
+  - `R4X_HOME = "react4xp"`: Main source code folder, home of core (non-XP-specific) React4xp source code.
  
   - `SRC_MAIN = "<rootDir>/src/main"`: Absolute base source code folder, parent folder of not only `R4X_HOME` but also Enonic XP's `resources` and `java` folders.
 
   - `R4X_TARGETSUBDIR = "react4xp"`: The target runtime folder, into which React4xp components and runtime stuffs are transpiled                   
   
   - `SUBFOLDER_BUILD_MAIN = "build/resources/main"`: Base pre-JAR folder for building, relative to `rootDir`. Parent folder of `R4X_TARGETSUBDIR`
-
-`overrides` can also contain these attributes, which won't change output but adjust behavior when running:
-
-  - `verbose`: Some logging when true
-  
-  - `overwriteConstantsFile`: Will overwrite already existing output JSON file if true
-
-Slashes depend on file system, should work correctly out of the box. Use your system's appropriate paths when overriding.
-
-
-## Output
-
-It builds a JSON file with these attributes. These default values can be controlled with the `overrides` parameter (but overriding base attributes instead of derived ones is probably simpler and safer):
 
   - `BUILD_ENV = "development"`: environment variable for production or development
   
@@ -83,7 +70,36 @@ It builds a JSON file with these attributes. These default values can be control
   
   - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available by these names, to both client and react serverside-rendering.
 
-  - `recommended`: Nice-to-have default settings (derived from the above) for other react4xp libraries: 
+`overrides` can also contain these attributes, which won't change output but adjust behavior when running:
+
+  - `verbose`: Some logging when true
+  
+  - `overwriteConstantsFile`: Will overwrite already existing output JSON file if true
+
+Slashes depend on file system, should work correctly out of the box. Use your system's appropriate paths when overriding.
+
+
+## Output
+
+It builds a JSON file with the following attributes, with default or override values. See [parameter overview](#parameters) for what each of them mean, as well as rules for overriding. 
+
+  - `BUILD_ENV`
+  - `LIBRARY_NAME`
+  - `R4X_HOME`
+  - `SITE_SUBFOLDER`
+  - `SRC_SITE`
+  - `R4X_TARGETSUBDIR`
+  - `R4X_ENTRY_SUBFOLDER`
+  - `SRC_R4X`
+  - `SRC_R4X_ENTRIES`
+  - `RELATIVE_BUILD_R4X`
+  -	`BUILD_MAIN`
+  - `BUILD_R4X`
+  - `EXTERNALS`
+  
+In addition, two more attributes are added. These can't be overridden.
+  - `__meta__`: Describing the output file itself
+  - `recommended`: Nice-to-have recommended settings (derived from the above) for these other react4xp libraries: 
     - `buildEntriesAndChunks`: react4xp-build-entriesandchunks 
   
-  - `__META__`: Describing the output file itself
+``

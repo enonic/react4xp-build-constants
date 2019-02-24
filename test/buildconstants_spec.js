@@ -20,6 +20,8 @@ describe("constants", ()=>{
             SITE_SUBFOLDER: "site",
             SRC_SITE: path.join(DIR_NAME, 'src', 'main', 'resources', 'site'),
             R4X_ENTRY_SUBFOLDER: "_components",
+            R4X_HOME: "react4xp",
+            R4X_TARGETSUBDIR: "react4xp",
             SRC_R4X: path.join(DIR_NAME, 'src', 'main', 'react4xp'),
             SRC_R4X_ENTRIES: path.join(DIR_NAME, 'src', 'main', 'react4xp', '_components'),
             RELATIVE_BUILD_R4X: path.join('build', 'resources', 'main', 'react4xp'),
@@ -77,7 +79,7 @@ describe("constants", ()=>{
             
             const actualOutput = require(outputFileName);
 
-            delete actualOutput['__META__'];
+            delete actualOutput['__meta__'];
             expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
         });
 
@@ -121,7 +123,7 @@ describe("constants", ()=>{
             
             const actualOutput = require(outputFileName);
 
-            delete actualOutput['__META__'];
+            delete actualOutput['__meta__'];
             expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
         });
 
@@ -138,7 +140,7 @@ describe("constants", ()=>{
 
             const actualOutput = require(outputFileNameJSON);
 
-            delete actualOutput['__META__'];
+            delete actualOutput['__meta__'];
             expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
         });
 
