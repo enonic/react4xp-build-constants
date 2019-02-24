@@ -82,3 +82,8 @@ It builds a JSON file with these attributes. These default values can be control
   - `BUILD_R4X = "<rootDir>/build/resources/main/react4xp"`: _full path_ to target folder into which both the React4xp core code and all (both shared and entry) React components will be built. Derived from `BUILD_MAIN + R4X_TARGETSUBDIR`
   
   - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available by these names, to both client and react serverside-rendering.
+
+  - `recommended`: Nice-to-have default settings (derived from the above) for other react4xp libraries: 
+    - `buildEntriesAndChunks`: react4xp-buildentriesandchunks 
+  
+  - `__META__`: Describing the output file itself

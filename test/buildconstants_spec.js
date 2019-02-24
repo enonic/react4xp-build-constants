@@ -30,6 +30,22 @@ describe("constants", ()=>{
                 "react-dom": "ReactDOM",
                 "react-dom/server": "ReactDOMServer",
             },
+
+            recommended: {
+                buildEntriesAndChunks: {
+                    ENTRY_SETS: [
+                        {
+                            sourcePath: path.join(DIR_NAME, 'src', 'main', 'react4xp', '_components'),
+                            sourceExtensions: ["jsx", "js", "es6"],
+                        },
+                        {
+                            sourcePath: path.join(DIR_NAME, 'src', 'main', 'resources', 'site'),
+                            sourceExtensions: ["jsx"],
+                            targetSubDir: "site",
+                        },
+                    ],
+                },
+            },
         });
 
         const TEST_OUTPUT_ROOT = path.join(DIR_NAME, "output");
@@ -56,7 +72,7 @@ describe("constants", ()=>{
             buildConstants(
                 DIR_NAME,
                 outputFileName, 
-                //{verbose: true}
+                // {verbose: true}
             );
             
             const actualOutput = require(outputFileName);
