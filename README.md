@@ -65,11 +65,11 @@ It builds a JSON file with these attributes. These default values can be control
   
   - `LIBRARY_NAME = "React4xp"`: name of the runtime JS library, used for calls in both the client and during serverside rendering 
 
-  - `SITE_SUBFOLDER = "site"`: name of the __subfolder__ (below `<SRC_MAIN>/resources/`) where the Enonic XP site structure is found.
+  - `SITE_SUBFOLDER = "site"`: name of the _subfolder_ (below `<SRC_MAIN>/resources/`) where the Enonic XP site structure is found.
 
-  - `SRC_SITE = "<rootDir>/src/main/resources/site"`: __full path__ to the folder where the XP site structure is found. Derived from `SRC_MAIN + "resources" + SITE_SUBFOLDER`.
+  - `SRC_SITE = "<rootDir>/src/main/resources/site"`: _full path_ to the folder where the XP site structure is found. Derived from `SRC_MAIN + "resources" + SITE_SUBFOLDER`.
   
-  - `R4X_ENTRY_SUBFOLDER = "_components"`: name of the __subfolder__ inside the core react4xp folder where react4xp during buildtime will look for general (not bound to specific XP components) __entry files__ (entries are non-shared, first-level components, runnable in both the client and in XP after transpilation)
+  - `R4X_ENTRY_SUBFOLDER = "_components"`: name of the _subfolder_ inside the core react4xp folder where react4xp during buildtime will look for general (not bound to specific XP components) _entry files_ (entries are non-shared, first-level components, runnable in both the client and in XP after transpilation)
   
   - `SRC_R4X = "<rootDir>/src/main/react4xp"`: _full path_ to the main react4xp source folder, home of core (non-XP-specific) React4xp source code. Derived from `SRC_MAIN + R4X_HOME`.
   
