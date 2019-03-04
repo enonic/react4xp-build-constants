@@ -4,8 +4,8 @@ import rimraf from 'rimraf';
 import deepFreeze from 'deep-freeze';
 import { expect } from 'chai';
 
-import buildConstants from '../lib';
-const ensureTargetOutputPathExists = require('../src/ensureTargetOutputPathExists');
+import buildConstants from '..';
+const ensureTargetOutputPathExists = require('../ensureTargetOutputPathExists');
 
 const DIR_NAME = __dirname; // eslint-disable-line no-undef
 
@@ -61,7 +61,7 @@ describe("constants", ()=>{
         });
 
         after(()=>{
-            //rimraf.sync(TEST_OUTPUT_ROOT);
+            rimraf.sync(TEST_OUTPUT_ROOT);
         });
 
 

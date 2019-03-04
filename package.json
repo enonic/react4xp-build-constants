@@ -1,21 +1,26 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "3.3.1",
+    "version": "0.2.0",
     "description": "Shared constants for buildtime component libraries for Enonic React4XP",
-    "main": "lib/index.js",
+    "main": "index.js",
     "files": [
-      "lib/cli.js",
-      "lib/ensureTargetOutputPathExists.js",
-      "lib/index.js"
+      "cli.js",
+      "ensureTargetOutputPathExists.js",
+      "index.js",
+      "README.md"
     ],
     "scripts": {
-        "clean": "rimraf lib",
-        "compile": "babel src -d lib --no-comments",
-        "cpjson": "copyfiles --flat src/*.json lib",
-        "prepare": "npm run checkall",
-        "eslint": "node_modules/eslint/bin/eslint.js ./*.js src/",
-        "checkall": "npm run eslint && npm run clean && npm run cpjson && npm run compile && npm run test",
-        "test": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\""
+        "clean": "npm run cleanCli && npm run cleanEnsure && npm run cleanIndex",
+        "cleanCli": "rimraf ./cli.js",
+        "cleanEnsure": "rimraf ./ensureTargetOutputPathExists.js",
+        "cleanIndex": "rimraf ./index.js",
+        "compile": "babel src -d . --no-comments",
+        "copy": "copyfiles --flat src/*.json lib",
+        "prepublish": "npm run checkall",
+        "eslint": "node_modules/eslint/bin/eslint.js src/",
+        "checkall": "npm run eslint && npm run clean && npm run copy && npm run compile && npm run test",
+        "test": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\"",
+        "postpublish": "npm run clean"
     },
     "repository": {
         "type": "git",

@@ -26,7 +26,7 @@ buildConstants(rootDir, outputFile [, overrides])
 
 Standalone, from command-line with Node installed:
 ```bash
-node_modules/react4xp-buildconstants/lib/cli.js "rootDir" "outputFile" ["overrides"]
+node_modules/react4xp-buildconstants/cli.js "rootDir" "outputFile" ["overrides"]
 ```
 
 
