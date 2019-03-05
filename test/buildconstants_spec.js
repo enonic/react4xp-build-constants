@@ -51,17 +51,19 @@ describe("constants", ()=>{
         });
 
         const TEST_OUTPUT_ROOT = path.join(DIR_NAME, "output");
+        const COPY_OUTPUT_ROOT = path.join(DIR_NAME, "build", "resources", "main", "lib", "enonic", "react4xp");
 
-
-
+        console.log(COPY_OUTPUT_ROOT);
 
 
         before(()=>{
             rimraf.sync(TEST_OUTPUT_ROOT);
+            rimraf.sync(path.join(DIR_NAME, "build"));
         });
 
         after(()=>{
             rimraf.sync(TEST_OUTPUT_ROOT);
+            rimraf.sync(path.join(DIR_NAME, "build"));
         });
 
 
@@ -83,6 +85,20 @@ describe("constants", ()=>{
             expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
         });
 
+        it("makes a copy of the constants file inside the folder /lib/enonic/react4xp, under its own constructed BUILD_MAIN path", () => {
+            const outputFileName = path.join(COPY_OUTPUT_ROOT, "copy_constants.json");
+
+            buildConstants(
+                DIR_NAME,
+                outputFileName,
+                // {verbose: true}
+            );
+
+            const actualOutput = require(outputFileName);
+
+            delete actualOutput['__meta__'];
+            expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
+        });
 
         it("leaves an existing output file intact instead of replacing it", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "existing_constants.json");

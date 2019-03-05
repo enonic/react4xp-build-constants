@@ -184,9 +184,29 @@ const buildConstants = (rootDir, outputFile, overrides) => {
     }, null, 2);
 
     verboseLog("\tproduced constants: " + asJson);
-    
+
+    // Puts the output file where it was requested - predictable from the build caller:
     ensureTargetOutputPathExists(outputFile, verboseLog);
     fs.writeFileSync(outputFile, asJson);
+    if (fs.existsSync(outputFile)) {
+        verboseLog("\t--> " + outputFile);
+
+    } else {
+        throw Error("It seems my efforts were in vain, trying to create react4xp config file: " + outputFile);
+    }
+
+    // Puts a copy of the output file in the folder where the react4xp runtime library will be built
+    // (<BUILD_MAIN>/lib/enonic/react4xp) - predictable for the runtime:
+    const baseName = path.basename(outputFile);
+    const fullCopyName = path.join(constants.BUILD_MAIN, "lib", "enonic", "react4xp", baseName);
+    ensureTargetOutputPathExists(fullCopyName, verboseLog);
+    fs.writeFileSync(fullCopyName, asJson);
+    if (fs.existsSync(fullCopyName)) {
+        verboseLog("\t--> " + fullCopyName);
+
+    } else {
+        throw Error("It seems my efforts were in vain, trying to copy react4xp config file: " + fullCopyName);
+    }
 
     verboseLog("\tOk, done.");
 };

@@ -81,7 +81,7 @@ Slashes depend on file system, should work correctly out of the box. Use your sy
 
 ## Output
 
-It builds a JSON file with the following attributes, with default or override values. See [parameter overview](#parameters) for what each of them mean, as well as rules for overriding. 
+It builds a JSON file with the following attributes, with default or override values. See [parameter overview](#parameters) for the meaning and default value of each of them, as well as rules for overriding. 
 
   - `BUILD_ENV`
   - `LIBRARY_NAME`
@@ -97,9 +97,9 @@ It builds a JSON file with the following attributes, with default or override va
   - `BUILD_R4X`
   - `EXTERNALS`
   
-In addition, two more attributes are added. These can't be overridden.
+In addition, two more attributes are added to the output file. These can't be overridden.
   - `__meta__`: Describing the output file itself
   - `recommended`: Nice-to-have recommended settings (derived from the above) for these other react4xp libraries: 
     - `buildEntriesAndChunks`: react4xp-build-entriesandchunks 
   
-``
+A copy of the output file is also put in the predicted build location of the [React4xp runtime lib](FIXME: GET LINK) folder: `<BUILD_MAIN>/lib/enonic/react4xp` 
