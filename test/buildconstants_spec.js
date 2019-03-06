@@ -73,16 +73,77 @@ describe("constants", ()=>{
         });
 
 
+        it("builds a constants file with a standard name, if the output file or path doesn't exist", () => {
+
+            // Changing the rootDir arg to avoid putting the output file right in the test root.
+            // That will affect the file content of course - different expectations below.
+            const outputFileName = path.join(TEST_OUTPUT_ROOT, "react4xp_constants.json");
+
+            fs.mkdirSync(TEST_OUTPUT_ROOT);
+
+            buildConstants(
+                TEST_OUTPUT_ROOT,
+                {
+                    // verbose: true,
+                }
+            );
+
+            const expectedOutput = {...EXPECTED_DEFAULT_OUTPUT};
+            expectedOutput.BUILD_MAIN = path.join(TEST_OUTPUT_ROOT, 'build', 'resources', 'main');
+            expectedOutput.BUILD_R4X = path.join(TEST_OUTPUT_ROOT, 'build', 'resources', 'main', 'react4xp');
+            expectedOutput.SRC_R4X = path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'react4xp');
+            expectedOutput.SRC_R4X_ENTRIES = path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'react4xp', '_components');
+            expectedOutput.SRC_SITE = path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'resources', 'site');
+            expectedOutput.recommended = {
+                buildEntriesAndChunks: {
+                    ENTRY_SETS: [
+                        {
+                            sourcePath: path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'react4xp', '_components'),
+                            sourceExtensions: ["jsx", "js", "es6"],
+                        },
+                        {
+                            sourcePath: path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'resources', 'site'),
+                            sourceExtensions: ["jsx"],
+                            targetSubDir: "site",
+                        },
+                    ],
+                },
+            };
 
 
-/*
+            const actualOutput = require(outputFileName);
+
+            delete actualOutput['__meta__'];
+            expect(actualOutput).to.deep.equal(expectedOutput);
+        });
+
+
+
+        it("builds a constants file with the specified output name, if the output file or path doesn't exist", () => {
+            const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "built_constants.json");
+
+            buildConstants(
+                DIR_NAME,
+                {
+                    outputFileName,
+                    // verbose: true,
+                }
+            );
+
+            const actualOutput = require(outputFileName);
+
+            delete actualOutput['__meta__'];
+            expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
+        });
         it("builds a constants file with the specified output name, if the output file or path doesn't exist", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "built_constants.json");
             
             buildConstants(
                 DIR_NAME,
-                outputFileName, 
-                // {verbose: true}
+                {
+                    outputFileName,
+                    // verbose: true,
+                }
             );
             
             const actualOutput = require(outputFileName);
@@ -91,22 +152,24 @@ describe("constants", ()=>{
             expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
         });
 
-        /*/it("makes a copy of the constants file, with a fixed name and path (build/resources/main/lib/enonic/react4xp)", () => {
+        it("makes a copy of the constants file, with a fixed name and path (build/resources/main/lib/enonic/react4xp)", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "thisIsNotTheCopy_constants.json");
 
             buildConstants(
                 DIR_NAME,
-                outputFileName,
-                // {verbose: true}
+                {
+                    outputFileName,
+                    // verbose: true,
+                }
             );
 
             const actualOutput = require(COPY_OUTPUT_NAME);
 
             delete actualOutput['__meta__'];
             expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
-        }); /*/
+        });
 
-        it("leaves an existing output file intact instead of replacing it", () => {
+        it("leaves an existing output file intact instead of replacing it, and also skips the copy", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "existing_constants.json");
             
             ensureTargetOutputPathExists(outputFileName);
@@ -114,8 +177,10 @@ describe("constants", ()=>{
             
             buildConstants(
                 DIR_NAME,
-                outputFileName, 
-                //{verbose: true}
+                {
+                    outputFileName,
+                    // verbose: true,
+                }
             );
             
             const actualOutput = deepFreeze(require(outputFileName));
@@ -127,26 +192,32 @@ describe("constants", ()=>{
             expect(actualOutput).to.deep.equal(expectedOutput);
         });
 
-
-        it("overwrites any existing output file iff 'overwriteConstantsFile' in the overrides object is set to true", () => {
+        it("overwrites any existing output file and the copy, iff 'overwriteConstantsFile' in the overrides object is set to true", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "overwrite_constants.json");
             
             ensureTargetOutputPathExists(outputFileName);
             fs.writeFileSync(outputFileName, '{"thisIsThe":"previousContent"}');
-            
+
+            ensureTargetOutputPathExists(COPY_OUTPUT_NAME);
+            fs.writeFileSync(COPY_OUTPUT_NAME, '{"thisIsThe":"previouslyCopiedContent"}');
+
             buildConstants(
                 DIR_NAME,
-                outputFileName, 
                 {
-                    //verbose: true,
+                    outputFileName,
                     overwriteConstantsFile: true,
+                    // verbose: true,
                 }
             );
             
             const actualOutput = require(outputFileName);
+            const copiedOutput = require(COPY_OUTPUT_NAME);
 
             delete actualOutput['__meta__'];
+            delete copiedOutput['__meta__'];
+
             expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
+            expect(copiedOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
         });
 
 
@@ -156,8 +227,10 @@ describe("constants", ()=>{
 
             buildConstants(
                 DIR_NAME,
-                outputFileNameRaw, 
-                //{ verbose: true, }
+                {
+                    outputFileName: outputFileNameRaw,
+                    // verbose: true,
+                }
             );
 
             const actualOutput = require(outputFileNameJSON);
@@ -165,7 +238,6 @@ describe("constants", ()=>{
             delete actualOutput['__meta__'];
             expect(actualOutput).to.deep.equal(EXPECTED_DEFAULT_OUTPUT);
         });
-
 
         it("puts the output file in the project path (rootDir) if outputFileName is only a filename, not a path", () => {
             const outputFileName = "purefilename_constants.json";
@@ -175,13 +247,14 @@ describe("constants", ()=>{
                 // Changing the rootDir arg to avoid putting the output file right here.
                 // That will affect the file content of course, different expectations below.
                 TEST_OUTPUT_ROOT,
-
-                outputFileName, 
-                //{ verbose: true, }
+                {
+                    outputFileName,
+                    // verbose: true,
+                }
             );
 
             const actualOutput = deepFreeze(require(path.join(TEST_OUTPUT_ROOT, outputFileName)));
-            
+
             // Just sampling a few unchanged ones
             expect(actualOutput.LIBRARY_NAME).to.equal(EXPECTED_DEFAULT_OUTPUT.LIBRARY_NAME);
             expect(actualOutput.R4X_ENTRY_SUBFOLDER).to.equal(EXPECTED_DEFAULT_OUTPUT.R4X_ENTRY_SUBFOLDER);
@@ -197,19 +270,19 @@ describe("constants", ()=>{
 
         it("allows direct override of selected values", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "override_direct_constants.json");
-            
+
             buildConstants(
                 DIR_NAME,
-                outputFileName, 
                 {
                     R4X_ENTRY_SUBFOLDER: "thisWasPreviously_components",
                     SITE_SUBFOLDER: "thisWasPreviouslySite",
+                    outputFileName,
                     //verbose: true,
                 }
             );
-            
+
             const actualOutput = deepFreeze(require(outputFileName));
-            
+
             // Just sampling a few unchanged ones
             expect(actualOutput.LIBRARY_NAME).to.equal(EXPECTED_DEFAULT_OUTPUT.LIBRARY_NAME);
             expect(actualOutput.EXTERNALS).to.deep.equal(EXPECTED_DEFAULT_OUTPUT.EXTERNALS);
@@ -220,21 +293,19 @@ describe("constants", ()=>{
         });
 
 
-
-
         it("changes derived values from overriden ones", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "override_derived_constants.json");
-            
+
             buildConstants(
                 DIR_NAME,
-                outputFileName, 
                 {
                     R4X_HOME: "thisWasPreviouslyReact4xp",
                     SITE_SUBFOLDER: "thisWasPreviouslySite",
+                    outputFileName,
                     //verbose: true
                 }
             );
-            
+
             const actualOutput = deepFreeze(require(outputFileName));
 
             // Just sampling a few unchanged ones
@@ -250,19 +321,18 @@ describe("constants", ()=>{
 
 
 
-
         it("can override specific derived values without changing the basic ones", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "override_specific_constants.json");
-            
+
             buildConstants(
                 DIR_NAME,
-                outputFileName, 
                 {
                     SRC_SITE: "thisShouldBeAnEntireOverwrittenSrcSitePath",
+                    outputFileName,
                     //verbose: true
                 }
             );
-            
+
             const actualOutput = deepFreeze(require(outputFileName));
 
             // Just sampling a few unchanged ones
@@ -273,12 +343,10 @@ describe("constants", ()=>{
             expect(actualOutput.SRC_R4X_ENTRIES).to.equal(EXPECTED_DEFAULT_OUTPUT.SRC_R4X_ENTRIES);
             // ...and notably:
             expect(actualOutput.SITE_SUBFOLDER).to.equal(EXPECTED_DEFAULT_OUTPUT.SITE_SUBFOLDER);
-            
+
             // All the derived changes:
-            expect(actualOutput.SRC_SITE).to.equal("thisShouldBeAnEntireOverwrittenSrcSitePath"); 
+            expect(actualOutput.SRC_SITE).to.equal("thisShouldBeAnEntireOverwrittenSrcSitePath");
         });
-
-
 
 
         it("can also accept the 'overrides' parameter as a JSON-parseable string", ()=>{
@@ -290,13 +358,13 @@ describe("constants", ()=>{
                 '"EXTERNALS": {' +
                 '"foo": "foofoo",' +
                 '"bar": "barbar"' +
-                '}' +
+                '},' +
+                '"outputFileName": ' + JSON.stringify(outputFileName) +
                 // ', "verbose": true ' +
                 '}';
 
             buildConstants(
                 DIR_NAME,
-                outputFileName,
                 overrides,
             );
 
@@ -317,13 +385,13 @@ describe("constants", ()=>{
 
 
 
-
         it("fails if overrides is an invalid JSON string", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "bad_jsonstring_constants.json");
 
             const overrides = '{' +
                 '"R4X_ENTRY_SUBFOLDER": "thisWasPreviously_components", ' +
                 '"SITE_SUBFOLDER: "thisWasPreviouslySite", ' +
+                '"outputFileName": ' + JSON.stringify(outputFileName) +
                 // ', "verbose": true ' +
                 '}';
 
@@ -341,36 +409,33 @@ describe("constants", ()=>{
 
 
         it("fails if overrides (JSON string or object) is valid but not object format", ()=>{
-            const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "bad_jsonstring_constants.json");
+            const root = path.join(TEST_OUTPUT_ROOT, "extraleveltoavoidcollision");
+            const outputFileName = path.join(root, "react4xp_constants.json");
 
             expect(()=>{
                 buildConstants(
-                    DIR_NAME,
-                    outputFileName,
+                    root,
                     '[ "R4X_ENTRY_SUBFOLDER", "SITE_SUBFOLDER" ]',
                 );
             }).to.throw(Error);
 
             expect(()=>{
                 buildConstants(
-                    DIR_NAME,
-                    outputFileName,
+                    root,
                     [ "R4X_ENTRY_SUBFOLDER", "SITE_SUBFOLDER" ],
                 );
             }).to.throw(Error);
 
             expect(()=>{
                 buildConstants(
-                    DIR_NAME,
-                    outputFileName,
-                    3,
+                    root,
+                    42,
                 );
             }).to.throw(Error);
 
             expect(()=>{
                 buildConstants(
-                    DIR_NAME,
-                    outputFileName,
+                    root,
                     true,
                 );
             }).to.throw(Error);
@@ -388,8 +453,10 @@ describe("constants", ()=>{
             expect(()=>{
                 buildConstants(
                     noExistPath,
-                    outputFileName,
-                    //{verbose:true},
+                    {
+                        outputFileName,
+                        // verbose:true.
+                    }
                 );
             }).to.throw(Error);
 
@@ -398,8 +465,10 @@ describe("constants", ()=>{
             expect(()=>{
                 buildConstants(
                     undefined,
-                    outputFileName,
-                    //{verbose:true},
+                    {
+                        outputFileName,
+                        // verbose:true.
+                    }
                 );
             }).to.throw(Error);
         });
@@ -409,13 +478,16 @@ describe("constants", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "isfile_constants.json");
 
             const fileExistPath = path.join(TEST_OUTPUT_ROOT, "thisIsAFile");
+            ensureTargetOutputPathExists(fileExistPath);
             fs.writeFileSync(fileExistPath, "Yep, a file all right.");
 
             expect(()=>{
                 buildConstants(
                     fileExistPath,
-                    outputFileName,
-                    //{verbose:true},
+                    {
+                        outputFileName,
+                        //verbose:true,
+                    }
                 );
             }).to.throw(Error);
 
@@ -423,24 +495,7 @@ describe("constants", ()=>{
         });
 
 
-        it("fails if outputFile name parameter is empty or missing", ()=>{
-            expect(()=>{
-                buildConstants(
-                    DIR_NAME,
-                    "",
-                    //{verbose:true},
-                );
-            }).to.throw(Error);
-
-            expect(()=>{
-                buildConstants(DIR_NAME);
-            }).to.throw(Error);
-        });
-
-
-
-
-        it("fails if outputFile points to a directory", ()=>{
+        it("fails if overrides.outputFile points to a directory", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "thisisDirectory_constants.json");
 
             ensureTargetOutputPathExists(path.join(outputFileName, "dummy"), function () {});
@@ -449,8 +504,10 @@ describe("constants", ()=>{
             expect(()=>{
                 buildConstants(
                     DIR_NAME,
-                    outputFileName,
-                    //{verbose:true},
+                    {
+                        outputFileName,
+                        // verbose:true
+                    },
                 );
             }).to.throw(Error);
 
@@ -459,21 +516,24 @@ describe("constants", ()=>{
 
 
 
-        it("fails if outputFile has a parent path that's not directory", ()=>{
+        it("fails if overrides.outputFile has a parent path that's not a directory", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "thisIsAlsoAFile", "parentisfile_constants.json");
 
             const fileExistPath = path.join(TEST_OUTPUT_ROOT, "thisIsAlsoAFile");
+            ensureTargetOutputPathExists(fileExistPath);
             fs.writeFileSync(fileExistPath, "Indeed, 'tis a file.");
 
             expect(()=>{
                 buildConstants(
                     DIR_NAME,
-                    outputFileName,
-                    //{verbose:true},  t
+                    {
+                        outputFileName,
+                        // verbose:true
+                    },
                 );
             }).to.throw(Error);
 
             expect(fs.existsSync(outputFileName)).to.equal(false);
-        }); //*/
+        });
     });
 });

@@ -4,11 +4,11 @@ const ensureTargetOutputPathExists = require('./ensureTargetOutputPathExists');
 
 const ME = typeof __filename !== "undefined" ? `: ${__filename}` : '';  // eslint-disable-line no-undef
 
+const STANDARD_OUTPUT_FILENAME = "react4xp_constants.json";
 
 /** Builds and outputs a constants JSON file, for shared React4xp constants that are needed across 
  *  contexts, buildtime/runtime and languages. 
- *  @param rootDir The project root. 
- *  @param outputFile The path and name of the output constants JSON file.
+ *  @param rootDir The project root.
  *  @param overrides An object where you can insert any of these values to control them in the output field:
  *      { 
  *          BUILD_ENV, LIBRARY_NAME, R4X_HOME, R4X_ENTRY_SUBFOLDER, SRC_MAIN, SITE_SUBFOLDER, SUBFOLDER_BUILD_MAIN, 
@@ -16,9 +16,12 @@ const ME = typeof __filename !== "undefined" ? `: ${__filename}` : '';  // eslin
  *          NASHORNPOLYFILLS_FILENAME, CLIENT_CHUNKS_FILENAME, EXTERNALS_CHUNKS_FILENAME, COMPONENT_CHUNKS_FILENAME, ENTRIESSOURCE,
  *      }
  *  Overrides can also have a "verbose" parameter, which will cause logging of the values if true.
+ *  Overrides can also have a "outputFileName" parameter, controlling the path and name of the output constants JSON files
  *  Overrides can also have a "overwriteConstantsFile" parameter. If this is true, and only then, 
  *  will an existing constants file on the target outputfile path be overwritten.
+ *
  *  Overrides can be an object, or a string that can be JSON parsed into an object.
+ *
  *  @returns Only the necessary fields are returned:
  *      { 
  *           BUILD_ENV, LIBRARY_NAME,
@@ -29,17 +32,12 @@ const ME = typeof __filename !== "undefined" ? `: ${__filename}` : '';  // eslin
  *           recommended
  *      }
  */
-const buildConstants = (rootDir, outputFile, overrides) => {
+const buildConstants = (rootDir, overrides) => {
     if (!fs.existsSync(rootDir)) {
         throw Error("rootDir (root directory) doesn't exist: " + JSON.stringify(rootDir));
     }
-    
     if (!fs.lstatSync(rootDir).isDirectory()) {
         throw Error("rootDir (root directory) must be a directory. It doesn't seem to be: " + JSON.stringify(rootDir));
-    }
-    outputFile = ((outputFile || "") + "").trim(); 
-    if (outputFile === '') {
-        throw Error("outputFile name is empty/missing: " + JSON.stringify(outputFile));
     }
 
     overrides = overrides || {};
@@ -55,21 +53,24 @@ const buildConstants = (rootDir, outputFile, overrides) => {
         function () {};
     
     verboseLog("Generating React4XP build constants JSON file:");
-
+    let outputFile = overrides.outputFileName || STANDARD_OUTPUT_FILENAME;
+    outputFile = (outputFile + "").trim();
+    if (outputFile === '') {
+        throw Error("overrides.outputFileName name is empty/missing: " + JSON.stringify(outputFile));
+    }
     if (!outputFile.toLowerCase().endsWith(".json")) {
         outputFile += ".json";
     }
-
     if (outputFile.indexOf(path.sep) === -1) {
         outputFile = path.join(rootDir, outputFile);
     }
-
     verboseLog("\t" + outputFile);
 
     if (overrides && Object.keys(overrides).length > 0) {
         verboseLog("\tOverrides: " + JSON.stringify(overrides, null, 2));
     }
-    
+
+
     if (fs.existsSync(outputFile)) {
         if (fs.lstatSync(outputFile).isDirectory()) {
             throw Error("outputFile name seems to point to a directory: " + JSON.stringify(outputFile));
@@ -209,7 +210,7 @@ const buildConstants = (rootDir, outputFile, overrides) => {
 
     // Puts a copy of the output file in the folder where the react4xp runtime library will be built
     // (<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json) - fixed and predictable path and name for the runtime:
-    const fullCopyName = path.join(rootDir, "build", "resources", "main", "lib", "enonic", "react4xp", "react4xp_constants.json");
+    const fullCopyName = path.join(rootDir, "build", "resources", "main", "lib", "enonic", "react4xp", STANDARD_OUTPUT_FILENAME);
     ensureTargetOutputPathExists(fullCopyName, verboseLog);
     fs.writeFileSync(fullCopyName, asJson);
     if (fs.existsSync(fullCopyName)) {
