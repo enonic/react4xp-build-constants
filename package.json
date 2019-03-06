@@ -1,6 +1,6 @@
 {
-    "name": "react4xp-buildconstants",
-    "version": "0.2.1",
+    "name": "react4xp-build-constants",
+    "version": "0.0.1",
     "description": "Shared constants for buildtime component libraries for Enonic React4XP",
     "main": "index.js",
     "files": [
@@ -10,10 +10,12 @@
       "README.md"
     ],
     "scripts": {
-        "clean": "npm run cleanCli && npm run cleanEnsure && npm run cleanIndex",
+        "clean": "npm run cleanCli && npm run cleanEnsure && npm run cleanIndex && npm run cleanTestBuild && npm run cleanTestOutput",
         "cleanCli": "rimraf ./cli.js",
         "cleanEnsure": "rimraf ./ensureTargetOutputPathExists.js",
         "cleanIndex": "rimraf ./index.js",
+        "cleanTestBuild": "rimraf rimraf test/build",
+        "cleanTestOutput": "rimraf test/output",
         "compile": "babel src -d . --no-comments",
         "copy": "copyfiles --flat src/*.json lib",
         "prepublish": "npm run checkall",

@@ -69,8 +69,20 @@ Override-able attributes and their default values are:
   - `BUILD_R4X = "<rootDir>/build/resources/main/react4xp"`: _full path_ to target folder into which both the React4xp core code and all (both shared and entry) React components will be built. Derived from `BUILD_MAIN + R4X_TARGETSUBDIR`
   
   - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available by these names, to both client and react serverside-rendering.
-
-`overrides` can also contain these attributes, which won't change output but adjust behavior when running:
+  
+...and finally, names for 5 different files. These files summarize the dynamic output from different React4xp built steps, allowing the runtime to handle dependencies with unpredictable names:
+  
+  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills.js"`,
+  
+  - `CLIENT_CHUNKS_FILENAME = "chunks.client.json"`,
+  
+  - `EXTERNALS_CHUNKS_FILENAME = "chunks.externals.json"`,
+  
+  - `COMPONENT_CHUNKS_FILENAME = "chunks.json"`,
+  
+  - `ENTRIES_FILENAME = "entries.json"`
+  
+Two other parameters that can be set in the `overrides` object - won't change output but adjust behavior when running:
 
   - `verbose`: Some logging when true
   
@@ -95,6 +107,11 @@ It builds a JSON file with the following attributes, with default or override va
   - `RELATIVE_BUILD_R4X`
   -	`BUILD_MAIN`
   - `BUILD_R4X`
+  - `NASHORNPOLYFILLS_FILENAME`
+  - `CLIENT_CHUNKS_FILENAME`
+  - `EXTERNALS_CHUNKS_FILENAME`
+  - `COMPONENT_CHUNKS_FILENAME`
+  - `ENTRIES_FILENAME`
   - `EXTERNALS`
   
 In addition, two more attributes are added to the output file. These can't be overridden.
