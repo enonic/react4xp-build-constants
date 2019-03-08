@@ -50,7 +50,9 @@ Override-able attributes and their default values are:
 
   - `BUILD_ENV = "development"`: environment variable for production or development
   
-  - `LIBRARY_NAME = "React4xp"`: name of the runtime JS library, used for calls in both the client and during serverside rendering 
+  - `LIBRARY_NAME = "React4xp"`: name of the runtime JS library, used for calls in both the client and during serverside rendering
+  
+  - `ASSET_URL_ROOT = "/_/service/${app.name}/react4xp/"`: URL root for where the client will look for the compiled React4xp client-side assets: react components, client wrapper, dependency chunks etc. If this contains `${app.name}`, lib-react4xp-runtime will insert the parent app name there (Note: the default value is the URL to lib-react4xp-runtime's service that handles caching and hashed-name dependency chunks. This is independent from Enonic XP's own asset handling or the asset folder).
 
   - `SITE_SUBFOLDER = "site"`: name of the _subfolder_ (below `<SRC_MAIN>/resources/`) where the Enonic XP site structure is found.
 
@@ -67,18 +69,20 @@ Override-able attributes and their default values are:
   - `BUILD_MAIN = "<rootDir>/build/resources/main"`: _full path_ to the main target buildtime folder (pre-JAR). Derived from `SUBFOLDER_BUILD_MAIN`. 
 
   - `BUILD_R4X = "<rootDir>/build/resources/main/react4xp"`: _full path_ to target folder into which both the React4xp core code and all (both shared and entry) React components will be built. Derived from `BUILD_MAIN + R4X_TARGETSUBDIR`
+
+  - `CHUNK_CONTENTHASH = 9`: Content hash length in the dependency chunk filenames, sets webpack's `output.chunkFilename`. Set to `0` (or falsy) to omit hashing entirely. Can also be an integer-parseable string such as `"9"`, or a full webpack's output.chunkFilename setting string (e.g, `"[name].[hash:8].js"`).
   
   - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available by these names, to both client and react serverside-rendering.
   
 ...and finally, names for 5 different files. These files summarize the dynamic output from different React4xp built steps, allowing the runtime to handle dependencies with unpredictable names:
-  
-  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills.js"`,
   
   - `CLIENT_CHUNKS_FILENAME = "chunks.client.json"`,
   
   - `EXTERNALS_CHUNKS_FILENAME = "chunks.externals.json"`,
   
   - `COMPONENT_CHUNKS_FILENAME = "chunks.json"`,
+  
+  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills.js"`,
   
   - `ENTRIES_FILENAME = "entries.json"`
   
@@ -97,6 +101,7 @@ It builds a JSON file with the following attributes, with default or override va
 
   - `BUILD_ENV`
   - `LIBRARY_NAME`
+  - `ASSET_URL_ROOT`
   - `R4X_HOME`
   - `SITE_SUBFOLDER`
   - `SRC_SITE`

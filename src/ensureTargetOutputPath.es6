@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-function ensureTargetOutputPathExists(outputFile, verboseLog) {
+function ensureTargetOutputPath(outputFile, verboseLog) {
     verboseLog = verboseLog || function () {};
     
     if (outputFile.indexOf(path.sep) === -1) {
@@ -20,7 +20,7 @@ function ensureTargetOutputPathExists(outputFile, verboseLog) {
 
         const parentPath = targetPathArr.slice(0, targetPathArr.length - 2).join(path.sep);
         if (!fs.existsSync(parentPath)) {
-            ensureTargetOutputPathExists(targetPath, verboseLog);
+            ensureTargetOutputPath(targetPath, verboseLog);
         } 
         
         verboseLog("\tCreating output path:      " + targetPath);
@@ -29,4 +29,4 @@ function ensureTargetOutputPathExists(outputFile, verboseLog) {
     }
 }
 
-module.exports = ensureTargetOutputPathExists;
+module.exports = ensureTargetOutputPath;

@@ -5,7 +5,7 @@ import deepFreeze from 'deep-freeze';
 import { expect } from 'chai';
 
 import buildConstants from '..';
-const ensureTargetOutputPathExists = require('../ensureTargetOutputPathExists');
+const ensureTargetOutputPath = require('../ensureTargetOutputPath');
 
 const DIR_NAME = __dirname; // eslint-disable-line no-undef
 
@@ -33,6 +33,9 @@ describe("constants", ()=>{
             EXTERNALS_CHUNKS_FILENAME: "chunks.externals.json",
             COMPONENT_CHUNKS_FILENAME: "chunks.json",
             ENTRIES_FILENAME: "entries.json",
+
+            ASSET_URL_ROOT: "/_/service/${app.name}/react4xp/",
+            CHUNK_CONTENTHASH: 9,
 
             EXTERNALS: {
                 "react": "React",
@@ -172,7 +175,7 @@ describe("constants", ()=>{
         it("leaves an existing output file intact instead of replacing it, and also skips the copy", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "existing_constants.json");
             
-            ensureTargetOutputPathExists(outputFileName);
+            ensureTargetOutputPath(outputFileName);
             fs.writeFileSync(outputFileName, '{"thisIsThe":"previousContent"}');
             
             buildConstants(
@@ -195,10 +198,10 @@ describe("constants", ()=>{
         it("overwrites any existing output file and the copy, iff 'overwriteConstantsFile' in the overrides object is set to true", () => {
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "overwrite_constants.json");
             
-            ensureTargetOutputPathExists(outputFileName);
+            ensureTargetOutputPath(outputFileName);
             fs.writeFileSync(outputFileName, '{"thisIsThe":"previousContent"}');
 
-            ensureTargetOutputPathExists(COPY_OUTPUT_NAME);
+            ensureTargetOutputPath(COPY_OUTPUT_NAME);
             fs.writeFileSync(COPY_OUTPUT_NAME, '{"thisIsThe":"previouslyCopiedContent"}');
 
             buildConstants(
@@ -478,7 +481,7 @@ describe("constants", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "isfile_constants.json");
 
             const fileExistPath = path.join(TEST_OUTPUT_ROOT, "thisIsAFile");
-            ensureTargetOutputPathExists(fileExistPath);
+            ensureTargetOutputPath(fileExistPath);
             fs.writeFileSync(fileExistPath, "Yep, a file all right.");
 
             expect(()=>{
@@ -498,7 +501,7 @@ describe("constants", ()=>{
         it("fails if overrides.outputFile points to a directory", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "thisisDirectory_constants.json");
 
-            ensureTargetOutputPathExists(path.join(outputFileName, "dummy"), function () {});
+            ensureTargetOutputPath(path.join(outputFileName, "dummy"), function () {});
             expect(fs.lstatSync(outputFileName).isDirectory()).to.equal(true);
 
             expect(()=>{
@@ -520,7 +523,7 @@ describe("constants", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "thisIsAlsoAFile", "parentisfile_constants.json");
 
             const fileExistPath = path.join(TEST_OUTPUT_ROOT, "thisIsAlsoAFile");
-            ensureTargetOutputPathExists(fileExistPath);
+            ensureTargetOutputPath(fileExistPath);
             fs.writeFileSync(fileExistPath, "Indeed, 'tis a file.");
 
             expect(()=>{
