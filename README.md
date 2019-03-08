@@ -117,6 +117,7 @@ It builds a JSON file with the following attributes, with default or override va
   - `EXTERNALS_CHUNKS_FILENAME`
   - `COMPONENT_CHUNKS_FILENAME`
   - `ENTRIES_FILENAME`
+  - `CHUNK_CONTENTHASH`
   - `EXTERNALS`
   
 In addition, two more attributes are added to the output file. These can't be overridden.
