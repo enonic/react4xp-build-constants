@@ -85,7 +85,7 @@ Override-able attributes and their default values are:
   
   - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available by these names, to both client and react serverside-rendering.
   
-...and finally, names for 5 different files. These files summarize the dynamic output from different React4xp built steps, allowing the runtime to handle dependencies with unpredictable names:
+...and finally, names for 5 different files. Four of them summarize the dynamic output from different React4xp built steps, allowing the runtime to handle dependencies with unpredictable names. The last one is used on the backend to enable the Nashorn engine to render server-side React.
   
   - `CLIENT_CHUNKS_FILENAME = "chunks.client.json"`,
   
@@ -93,9 +93,9 @@ Override-able attributes and their default values are:
   
   - `COMPONENT_CHUNKS_FILENAME = "chunks.json"`,
   
-  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills.js"`,
-  
   - `ENTRIES_FILENAME = "entries.json"`
+  
+  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills"`,
   
 Two other parameters that can be set in the `overrides` object - won't change output but adjust behavior when running:
 

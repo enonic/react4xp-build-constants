@@ -1,6 +1,6 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "description": "React4xp helper: creates a JSON file with shared constants that define and setup a React4xp project.",
     "main": "index.js",
     "files": [

@@ -28,7 +28,7 @@ describe("constants", ()=>{
             BUILD_MAIN: path.join(DIR_NAME, 'build', 'resources', 'main'),
             BUILD_R4X: path.join(DIR_NAME, 'build', 'resources', 'main', 'react4xp'),
 
-            NASHORNPOLYFILLS_FILENAME: "nashornPolyfills.js",
+            NASHORNPOLYFILLS_FILENAME: "nashornPolyfills",
             CLIENT_CHUNKS_FILENAME: "chunks.client.json",
             EXTERNALS_CHUNKS_FILENAME: "chunks.externals.json",
             COMPONENT_CHUNKS_FILENAME: "chunks.json",

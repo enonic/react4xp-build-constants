@@ -105,7 +105,7 @@ const buildConstants = (rootDir, overrides) => {
         SUBFOLDER_BUILD_MAIN: path.join('build', 'resources', 'main'),      // build/resources/main
 
         // These are names for files used for summarizing dynamic outputs from different build steps for use by the runtime
-        NASHORNPOLYFILLS_FILENAME: "nashornPolyfills.js",
+        NASHORNPOLYFILLS_FILENAME: "nashornPolyfills",
         CLIENT_CHUNKS_FILENAME: "chunks.client.json",
         EXTERNALS_CHUNKS_FILENAME: "chunks.externals.json",
         COMPONENT_CHUNKS_FILENAME: "chunks.json",
