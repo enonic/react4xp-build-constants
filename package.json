@@ -1,6 +1,6 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "description": "Shared constants for buildtime component libraries for Enonic React4XP",
     "main": "index.js",
     "files": [
@@ -12,7 +12,7 @@
     "scripts": {
         "clean": "npm run cleanCli && npm run cleanEnsure && npm run cleanIndex && npm run cleanTestBuild && npm run cleanTestOutput",
         "cleanCli": "rimraf ./cli.js",
-        "cleanEnsure": "rimraf ./ensureTargetOutputPathExists.js",
+        "cleanEnsure": "rimraf ./ensureTargetOutputPath.js",
         "cleanIndex": "rimraf ./index.js",
         "cleanTestBuild": "rimraf rimraf test/build",
         "cleanTestOutput": "rimraf test/output",
@@ -26,14 +26,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/enonic/react4xp-buildconstants.git"
+        "url": "git+https://github.com/enonic/react4xp-build-constants.git"
     },
     "author": "Espen Norderud",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/enonic/react4xp-buildconstants/issues"
+        "url": "https://github.com/enonic/react4xp-build-constants/issues"
     },
-    "homepage": "https://github.com/enonic/react4xp-buildconstants",
+    "homepage": "https://github.com/enonic/react4xp-build-constants",
     "dependencies": {},
     "devDependencies": {
         "babel-cli": "^6.26.0",

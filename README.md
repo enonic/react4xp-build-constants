@@ -124,4 +124,4 @@ In addition, two more attributes are added to the output file. These can't be ov
   - `recommended`: Nice-to-have recommended settings (derived from the above) for these other react4xp libraries: 
     - `buildEntriesAndChunks`: react4xp-build-entriesandchunks 
   
-A copy of the output file is also put in the predicted build location of the [React4xp runtime lib](FIXME: GET LINK) folder: `<BUILD_MAIN>/lib/enonic/react4xp` 
+A copy of the output file is also put in the predicted build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp-runtime): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json` 
