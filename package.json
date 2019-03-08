@@ -1,7 +1,7 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "0.4.3",
-    "description": "Shared constants for buildtime component libraries for Enonic React4XP",
+    "version": "0.4.4",
+    "description": "React4xp helper: creates a JSON file with shared constants that define and setup a React4xp project.",
     "main": "index.js",
     "files": [
       "cli.js",

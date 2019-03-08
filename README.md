@@ -1,12 +1,23 @@
 # react4xp-buildconstants
 
-Generates constants and stores them in a standard JSON file. These constants define the source and target folder structure of a **Reaxt4XP** project, and shared build- and runtime constants needed across its libraries, languages and components.
+**React4xp helper: creates a JSON file with shared constants that define and setup a React4xp project.**
 
 **Jump to:**
+  - [Introduction](introduction)
   - [Install](#install)
   - [Usage](#usage)
     - [Parameters](#parameters)
   - [Output](#output)
+  - [Skipping this helper](#skipping-this-helper)
+
+
+## Introduction
+
+React4xp has several steps that are necessary. You can use it out-of-the-box by stringing the helpers and libraries together as-is, or you can fork/modify/override/mess with each of the steps as you want - but the role each of the steps plays is mandatory and should at least not be skipped (with one exception: [building your own externals chunk](https://www.npmjs.com/package/react4xp-runtime-externals) is optional).
+
+Binding these steps together is **a JSON file with a set of constants** that define the whole React4xp project, and sync together each step and what they're is doing. **This helper creates that file for you** (although you can [do it on your own](#skipping-this-helper) if you need to).
+
+These constants define the source and target folder and file structure of a Reaxt4XP project, and shared build- and runtime constants needed across components, libraries, and different languages.
   
 ## Install
 
@@ -126,3 +137,16 @@ In addition, two more attributes are added to the output file. These can't be ov
     - `buildEntriesAndChunks`: react4xp-build-entriesandchunks 
   
 A copy of the output file is also put in the predicted build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp-runtime): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json` 
+
+
+-----------
+
+## Skipping this helper
+
+The important thing is the JSON file with the constants, so this helper is not strictly necessary - just easier. 
+
+If you want to roll your own file manually, **you must:** 
+  1. stick to the format defined above, at least the upper-case attributes. The `recommended` attribute only contains suggestions, so far used in only one place: `src/webpack.config.js` in [the build-components step](https://www.npmjs.com/package/react4xp-build-components).
+  2. refer to the file in the other steps as mentioned in their documentation, and 
+  3. make a copy of it in the build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp-runtime): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json`
+
