@@ -1,11 +1,11 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "description": "Shared constants for buildtime component libraries for Enonic React4XP",
     "main": "index.js",
     "files": [
       "cli.js",
-      "ensureTargetOutputPathExists.js",
+      "ensureTargetOutputPath.js",
       "index.js",
       "README.md"
     ],
