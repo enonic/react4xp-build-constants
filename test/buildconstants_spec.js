@@ -31,9 +31,10 @@ describe("constants", ()=>{
             NASHORNPOLYFILLS_FILENAME: "nashornPolyfills",
             CLIENT_CHUNKS_FILENAME: "chunks.client.json",
             EXTERNALS_CHUNKS_FILENAME: "chunks.externals.json",
-            COMPONENT_CHUNKS_FILENAME: "chunks.json",
             ENTRIES_FILENAME: "entries.json",
+            COMPONENT_STATS_FILENAME: "stats.components.json",
 
+            SERVICE_ROOT_URL: "/_/service/${app.name}",
             ASSET_URL_ROOT: "/_/service/${app.name}/react4xp/",
             CHUNK_CONTENTHASH: 9,
 

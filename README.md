@@ -63,7 +63,9 @@ Override-able attributes and their default values are:
   
   - `LIBRARY_NAME = "React4xp"`: name of the runtime JS library, used for calls in both the client and during serverside rendering
   
-  - `ASSET_URL_ROOT = "/_/service/${app.name}/react4xp/"`: URL root for where the client will look for the compiled React4xp client-side assets: react components, client wrapper, dependency chunks etc. If this contains `${app.name}`, lib-react4xp-runtime will insert the parent app name there (Note: the default value is the URL to lib-react4xp-runtime's service that handles caching and hashed-name dependency chunks. This is independent from Enonic XP's own asset handling or the asset folder).
+  - `SERVICE_ROOT_URL = "/_/service/${app.name}"`: URL root for where the client will look for the compiled React4xp client-side assets: react components, client wrapper, dependency chunks etc. If this contains `${app.name}`, lib-react4xp-runtime will insert the parent app name there (Note: the default value is the URL to lib-react4xp-runtime's service that handles caching and hashed-name dependency chunks. This is independent from Enonic XP's own asset handling or the asset folder).
+  
+  - `ASSET_URL_ROOT = "/_/service/${app.name}/react4xp/"`: URL root for where the client will look for the compiled React4xp client-side assets: react components, client wrapper, dependency chunks etc. If this contains `${app.name}`, lib-react4xp-runtime will insert the parent app name there (Note: the default value is the URL to lib-react4xp-runtime's service that handles caching and hashed-name dependency chunks. This is independent from Enonic XP's own asset handling or the asset folder). Derived from `SERVICE_ROOT_URL + "/react4xp/"`
 
   - `SITE_SUBFOLDER = "site"`: name of the _subfolder_ (below `<SRC_MAIN>/resources/`) where the Enonic XP site structure is found.
 
@@ -85,19 +87,21 @@ Override-able attributes and their default values are:
   
   - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available by these names, to both client and react serverside-rendering.
   
-...and finally, names for 5 different files. Four of them summarize the dynamic output from different React4xp built steps, allowing the runtime to handle dependencies with unpredictable names. The last one is used on the backend to enable the Nashorn engine to render server-side React.
+...and finally, names for five different files. Four of them summarize the dynamic output from different React4xp built steps, allowing the runtime to handle dependencies with unpredictable names, as well as tracing chunk dependencies for specific components. The last one is used on the backend to enable the Nashorn engine to render server-side React.
   
   - `CLIENT_CHUNKS_FILENAME = "chunks.client.json"`,
   
   - `EXTERNALS_CHUNKS_FILENAME = "chunks.externals.json"`,
   
-  - `COMPONENT_CHUNKS_FILENAME = "chunks.json"`,
+  - `ENTRIES_FILENAME = "entries.json"`,
   
-  - `ENTRIES_FILENAME = "entries.json"`
+  - `COMPONENT_STATS_FILENAME = "stats.components.json"`
   
-  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills"`,
+  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills"`
   
 Two other parameters that can be set in the `overrides` object - won't change output but adjust behavior when running:
+
+  - `outputFileName = "react4xp_constants.json"`: Running _react4xp-buildconstants_ will build 2 identical versions of the constants file: the _base_ file used in buildtime, and and a _copy_ put into the predicted build folder where the react4xp XP runtime lib will be imported (lib-react4xp-runtime). Setting the `outputFileName` here lets you specify where the base file will be built. Path relative to the project folder, and filename.
 
   - `verbose`: Some logging when true
   
