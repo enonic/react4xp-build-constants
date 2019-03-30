@@ -35,7 +35,6 @@ describe("constants", ()=>{
             COMPONENT_STATS_FILENAME: "stats.components.json",
 
             SERVICE_ROOT_URL: "/_/service/${app.name}",
-            ASSET_URL_ROOT: "/_/service/${app.name}/react4xp/",
             CHUNK_CONTENTHASH: 9,
 
             EXTERNALS: {

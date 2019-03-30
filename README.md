@@ -65,8 +65,6 @@ Override-able attributes and their default values are:
   
   - `SERVICE_ROOT_URL = "/_/service/${app.name}"`: URL root for where the client will look for the compiled React4xp client-side assets: react components, client wrapper, dependency chunks etc. If this contains `${app.name}`, lib-react4xp-runtime will insert the parent app name there (Note: the default value is the URL to lib-react4xp-runtime's service that handles caching and hashed-name dependency chunks. This is independent from Enonic XP's own asset handling or the asset folder).
   
-  - `ASSET_URL_ROOT = "/_/service/${app.name}/react4xp/"`: URL root for where the client will look for the compiled React4xp client-side assets: react components, client wrapper, dependency chunks etc. If this contains `${app.name}`, lib-react4xp-runtime will insert the parent app name there (Note: the default value is the URL to lib-react4xp-runtime's service that handles caching and hashed-name dependency chunks. This is independent from Enonic XP's own asset handling or the asset folder). Derived from `SERVICE_ROOT_URL + "/react4xp/"`
-
   - `SITE_SUBFOLDER = "site"`: name of the _subfolder_ (below `<SRC_MAIN>/resources/`) where the Enonic XP site structure is found.
 
   - `SRC_SITE = "<rootDir>/src/main/resources/site"`: _full path_ to the folder where the XP site structure is found. Derived from `SRC_MAIN + "resources" + SITE_SUBFOLDER`.
