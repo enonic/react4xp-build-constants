@@ -1,13 +1,14 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "React4xp helper: creates a JSON file with shared constants that define and setup a React4xp project.",
     "main": "index.js",
     "files": [
       "cli.js",
       "ensureTargetOutputPath.js",
       "index.js",
-      "README.md"
+      "README.md",
+      "LICENSE"
     ],
     "scripts": {
         "clean": "npm run cleanCli && npm run cleanEnsure && npm run cleanIndex && npm run cleanTestBuild && npm run cleanTestOutput",
