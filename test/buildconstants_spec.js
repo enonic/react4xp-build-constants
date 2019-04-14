@@ -357,7 +357,7 @@ describe("constants", ()=>{
 
             const overrides = '{' +
                 '"R4X_ENTRY_SUBFOLDER": "thisWasPreviously_components", ' +
-                '"SITE_SUBFOLDER": "thisWasPreviouslySite", ' +
+                '"SITE_SUBFOLDER": "C:\\\\a\\\\windows\\\\path\\\\that\\\\was\\\\previously\\\\site", ' +
                 '"EXTERNALS": {' +
                 '"foo": "foofoo",' +
                 '"bar": "barbar"' +
@@ -379,7 +379,7 @@ describe("constants", ()=>{
 
             // The two directly changed ones
             expect(actualOutput.R4X_ENTRY_SUBFOLDER).to.equal("thisWasPreviously_components");
-            expect(actualOutput.SITE_SUBFOLDER).to.equal("thisWasPreviouslySite");
+            expect(actualOutput.SITE_SUBFOLDER).to.equal("C:\\a\\windows\\path\\that\\was\\previously\\site");
             expect(actualOutput.EXTERNALS).to.deep.equal({
                 foo: "foofoo",
                 bar: "barbar",

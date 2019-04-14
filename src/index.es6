@@ -45,7 +45,13 @@ const buildConstants = (rootDir, overrides) => {
 
     overrides = overrides || {};
     if (typeof overrides === "string") {
+        //console.log("overrides (" + typeof overrides + "): " + JSON.stringify(overrides, null, 2));
         overrides = JSON.parse(overrides);
+
+        // UGLY FIX/HACK FOR PLATFORM INCONSISTENCIES IN HANDLING OF CLI PARAMETERS - might need parsing twice in windows!
+        if (typeof overrides === "string") {
+            overrides = JSON.parse(overrides);
+        }
     }
     if (typeof overrides !== "object" || Array.isArray(overrides)) {
         throw Error("overrides must be an object (or a JSON string object): " + JSON.stringify(overrides));
