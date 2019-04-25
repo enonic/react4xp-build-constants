@@ -98,12 +98,12 @@ const buildConstants = (rootDir, overrides) => {
 
         LIBRARY_NAME: 'React4xp',
 
-        R4X_HOME: 'react4xp',
-        R4X_TARGETSUBDIR: 'react4xp',
+        R4X_HOME: 'resources/react4xp',
+        R4X_TARGETSUBDIR: 'assets/react4xp',
 
-        // Special-case subdirectory under /react4xp/. All files under this will be their own chunk, for dynamic, on-demand
+        // Special-case subdirectory under R4X_HOME (/react4xp/). All files under this will be their own chunk, for dynamic, on-demand
         // asset loading of top-level components, which in turn uses shared components chunked under all other subdirectories.
-        R4X_ENTRY_SUBFOLDER: '_components',
+        R4X_ENTRY_SUBFOLDER: '_entries',
 
         SRC_MAIN: path.join(rootDir, 'src', 'main'),        // <project>/src/main
 

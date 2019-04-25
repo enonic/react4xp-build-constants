@@ -51,11 +51,11 @@ node_modules/react4xp-buildconstants/cli.js "rootDir" "outputFile" ["overrides"]
 
 Override-able attributes and their default values are:
 
-  - `R4X_HOME = "react4xp"`: Main source code folder, home of core (non-XP-specific) React4xp source code.
+  - `R4X_HOME = "resources/react4xp"`: Main source code folder, home of core (non-XP-specific) React4xp source code.
  
   - `SRC_MAIN = "<rootDir>/src/main"`: Absolute base source code folder, parent folder of not only `R4X_HOME` but also Enonic XP's `resources` and `java` folders.
 
-  - `R4X_TARGETSUBDIR = "react4xp"`: The target runtime folder, into which React4xp components and runtime stuffs are transpiled                   
+  - `R4X_TARGETSUBDIR = "assets/react4xp"`: The target runtime folder, into which React4xp components and runtime stuffs are transpiled                   
   
   - `SUBFOLDER_BUILD_MAIN = "build/resources/main"`: Base pre-JAR folder for building, relative to `rootDir`. Parent folder of `R4X_TARGETSUBDIR`
 
@@ -69,17 +69,17 @@ Override-able attributes and their default values are:
 
   - `SRC_SITE = "<rootDir>/src/main/resources/site"`: _full path_ to the folder where the XP site structure is found. Derived from `SRC_MAIN + "resources" + SITE_SUBFOLDER`.
   
-  - `R4X_ENTRY_SUBFOLDER = "_components"`: name of the _subfolder_ inside the core react4xp folder where react4xp during buildtime will look for general (not bound to specific XP components) _entry files_ (entries are non-shared, first-level components, runnable in both the client and in XP after transpilation)
+  - `R4X_ENTRY_SUBFOLDER = "_entries"`: name of the _subfolder_ inside the core react4xp folder where react4xp during buildtime will look for general (not bound to specific XP components) _entry files_ (entries are non-shared, first-level components, runnable in both the client and in XP after transpilation)
   
-  - `SRC_R4X = "<rootDir>/src/main/react4xp"`: _full path_ to the main react4xp source folder, home of core (non-XP-specific) React4xp source code. Derived from `SRC_MAIN + R4X_HOME`.
+  - `SRC_R4X = "<rootDir>/src/main/resources/react4xp"`: _full path_ to the main react4xp source folder, home of core (non-XP-specific) React4xp source code. Derived from `SRC_MAIN + R4X_HOME`.
   
-  - `SRC_R4X_ENTRIES = "<rootDir>/src/main/react4xp/_components"`: _full path_ to the entries source folder. Derived from `SRC_R4X + R4X_ENTRY_SUBFOLDER`.
+  - `SRC_R4X_ENTRIES = "<rootDir>/src/main/resources/react4xp/_entries"`: _full path_ to the entries source folder. Derived from `SRC_R4X + R4X_ENTRY_SUBFOLDER`.
   
-  - `RELATIVE_BUILD_R4X = "build/resources/main/react4xp"`: _relative path_ to the target react4xp build folder. Derived from `SUBFOLDER_BUILD_MAIN + R4X_TARGETSUBDIR`.
+  - `RELATIVE_BUILD_R4X = "build/resources/main/assets/react4xp"`: _relative path_ to the target react4xp build folder. Derived from `SUBFOLDER_BUILD_MAIN + R4X_TARGETSUBDIR`.
   
   - `BUILD_MAIN = "<rootDir>/build/resources/main"`: _full path_ to the main target buildtime folder (pre-JAR). Derived from `SUBFOLDER_BUILD_MAIN`. 
 
-  - `BUILD_R4X = "<rootDir>/build/resources/main/react4xp"`: _full path_ to target folder into which both the React4xp core code and all (both shared and entry) React components will be built. Derived from `BUILD_MAIN + R4X_TARGETSUBDIR`
+  - `BUILD_R4X = "<rootDir>/build/resources/main/assets/react4xp"`: _full path_ to target folder into which both the React4xp core code and all (both shared and entry) React components will be built. Derived from `BUILD_MAIN + R4X_TARGETSUBDIR`
 
   - `CHUNK_CONTENTHASH = 9`: Content hash length in the dependency chunk filenames, sets webpack's `output.chunkFilename`. Set to `0` (or falsy) to omit hashing entirely. Can also be an integer-parseable string such as `"9"`, or a full webpack's output.chunkFilename setting string (e.g, `"[name].[hash:8].js"`).
   
