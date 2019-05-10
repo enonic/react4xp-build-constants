@@ -20,7 +20,7 @@ describe("constants", ()=>{
             SITE_SUBFOLDER: "site",
             SRC_SITE: path.join(DIR_NAME, 'src', 'main', 'resources', 'site'),
             R4X_ENTRY_SUBFOLDER: "_entries",
-            R4X_HOME: path.join('resources', 'react4xp'),
+            R4X_HOME: 'react4xp',
             R4X_TARGETSUBDIR: path.join('assets', 'react4xp'),
             SRC_R4X: path.join(DIR_NAME, 'src', 'main', 'resources', 'react4xp'),
             SRC_R4X_ENTRIES: path.join(DIR_NAME, 'src', 'main', 'resources', 'react4xp', '_entries'),
@@ -34,7 +34,6 @@ describe("constants", ()=>{
             ENTRIES_FILENAME: "entries.json",
             COMPONENT_STATS_FILENAME: "stats.components.json",
 
-            SERVICE_ROOT_URL: "/_/service/${app.name}",
             CHUNK_CONTENTHASH: 9,
 
             EXTERNALS: {
@@ -317,8 +316,10 @@ describe("constants", ()=>{
             expect(actualOutput.RELATIVE_BUILD_R4X).to.equal(EXPECTED_DEFAULT_OUTPUT.RELATIVE_BUILD_R4X);
 
             // All the derived changes:
-            expect(actualOutput.SRC_R4X).to.equal(path.join(DIR_NAME, 'src', 'main', 'thisWasPreviouslyReact4xp'));
-            expect(actualOutput.SRC_R4X_ENTRIES).to.equal(path.join(DIR_NAME, 'src', 'main', 'thisWasPreviouslyReact4xp', '_entries'),);
+            expect(actualOutput.SRC_R4X).to.equal(path.join(DIR_NAME, 'src', 'main', 'resources', 'thisWasPreviouslyReact4xp'));
+            expect(actualOutput.SRC_R4X_ENTRIES).to.equal(
+                path.join(DIR_NAME, 'src', 'main', 'resources', 'thisWasPreviouslyReact4xp', '_entries')
+            );
             expect(actualOutput.SRC_SITE).to.equal(path.join(DIR_NAME, 'src', 'main', 'resources', 'thisWasPreviouslySite'));
         });
 

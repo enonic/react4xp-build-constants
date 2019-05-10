@@ -51,19 +51,17 @@ node_modules/react4xp-buildconstants/cli.js "rootDir" "outputFile" ["overrides"]
 
 Override-able attributes and their default values are:
 
-  - `R4X_HOME = "resources/react4xp"`: Main source code folder, home of core (non-XP-specific) React4xp source code.
+  - `R4X_HOME = "react4xp"`: Main source code folder, home of core (non-XP-specific) React4xp source code
  
-  - `SRC_MAIN = "<rootDir>/src/main"`: Absolute base source code folder, parent folder of not only `R4X_HOME` but also Enonic XP's `resources` and `java` folders.
+  - `SRC_MAIN = "<rootDir>/src/main/resources"`: Absolute base source code folder, the parent folder of `R4X_HOME` and `SITE_SUBFOLDER` (by default, but it's up to you).
 
-  - `R4X_TARGETSUBDIR = "assets/react4xp"`: The target runtime folder, into which React4xp components and runtime stuffs are transpiled                   
+  - `R4X_TARGETSUBDIR = "assets/react4xp"`: The target runtime folder, into which React4xp components and runtime stuffs are transpiled.                   
   
   - `SUBFOLDER_BUILD_MAIN = "build/resources/main"`: Base pre-JAR folder for building, relative to `rootDir`. Parent folder of `R4X_TARGETSUBDIR`
 
   - `BUILD_ENV = "development"`: environment variable for production or development
   
   - `LIBRARY_NAME = "React4xp"`: name of the runtime JS library, used for calls in both the client and during serverside rendering
-  
-  - `SERVICE_ROOT_URL = "/_/service/${app.name}"`: URL root for where the client will look for the compiled React4xp client-side assets: react components, client wrapper, dependency chunks etc. If this contains `${app.name}`, lib-react4xp-runtime will insert the parent app name there (Note: the default value is the URL to lib-react4xp-runtime's service that handles caching and hashed-name dependency chunks. This is independent from Enonic XP's own asset handling or the asset folder).
   
   - `SITE_SUBFOLDER = "site"`: name of the _subfolder_ (below `<SRC_MAIN>/resources/`) where the Enonic XP site structure is found.
 
@@ -138,7 +136,7 @@ In addition, two more attributes are added to the output file. These can't be ov
   - `recommended`: Nice-to-have recommended settings (derived from the above) for these other react4xp libraries: 
     - `buildEntriesAndChunks`: react4xp-build-entriesandchunks 
   
-A copy of the output file is also put in the predicted build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp-runtime): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json` 
+A copy of the output file is also put in the predicted build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json` 
 
 
 -----------
@@ -150,5 +148,5 @@ The important thing is the JSON file with the constants, so this helper is not s
 If you want to roll your own file manually, **you must:** 
   1. stick to the format defined above, at least the upper-case attributes. The `recommended` attribute only contains suggestions, so far used in only one place: `src/webpack.config.js` in [the build-components step](https://www.npmjs.com/package/react4xp-build-components).
   2. refer to the file in the other steps as mentioned in their documentation, and 
-  3. make a copy of it in the build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp-runtime): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json`
+  3. make a copy of it in the build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json`
 
