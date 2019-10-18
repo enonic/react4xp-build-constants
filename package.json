@@ -1,6 +1,6 @@
 {
     "name": "react4xp-buildconstants",
-    "version": "0.7.4",
+    "version": "0.7.5",
     "description": "React4xp helper: creates a JSON file with shared constants that define and setup a React4xp project.",
     "main": "index.js",
     "files": [
@@ -19,10 +19,10 @@
         "cleanTestOutput": "rimraf test/output",
         "compile": "babel src -d . --no-comments",
         "copy": "copyfiles --flat src/*.json lib",
-        "prepublish": "npm run checkall",
         "eslint": "node_modules/eslint/bin/eslint.js src/",
-        "checkall": "npm run eslint && npm run clean && npm run copy && npm run compile && npm run test",
-        "test": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\"",
+        "test": "npm run eslint && npm run clean && npm run copy && npm run compile && npm run runTest",
+        "runTest": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\"",
+        "prepublish": "npm run test",
         "postpublish": "npm run clean"
     },
     "repository": {

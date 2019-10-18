@@ -37,7 +37,7 @@ buildConstants(rootDir, outputFile [, overrides])
 
 Standalone, from command-line with Node installed:
 ```bash
-node_modules/react4xp-buildconstants/cli.js "rootDir" "outputFile" ["overrides"]
+node_modules/react4xp-buildconstants/cli.js rootDir outputFile [overrides]
 ```
 
 
@@ -47,9 +47,9 @@ node_modules/react4xp-buildconstants/cli.js "rootDir" "outputFile" ["overrides"]
 
 `outputFile` (string): the name of the JSON file where the constants are stored. If it doesn't end in `.json`, that extension will be added. It can / should be a full path-and-filename (in system-appropriate format). But if it's only a file name, the output file will be created in `rootDir`. Default behavior is to NOT overwrite the file if it already exists, but overwriting can be enabled (see `overwriteConstantsFile` below). Will try to create folder if path doesn't exist.
 
-`overrides` (optional. Object or JSON-parsable string): Override the default value(s) of output attributes by adding the same key and a new value here. This can be done for each __output value__ specifically, and/or by setting the __base values__ if the output value is derived from one or more common base values. Some but not all base values will be part of [the Output](#output). Overriding base values allow you to control the several output values at once, which can be simpler, more consistent, and safer - recommended. 
+`overrides` (optional. JSON object or JSON-parsable string): Override the default value(s) of output attributes by adding the same key and a new value here. This can be done for each __output value__ specifically, and/or by setting the __base values__ if the output value is derived from one or more common base values. Some but not all base values will be part of [the Output](#output). Overriding base values allow you to control the several output values at once, which can be simpler, more consistent, and safer - recommended. 
 
-Override-able attributes and their default values are:
+Override-able attributes (and their default values if they are not filled in) are:
 
   - `R4X_HOME = "react4xp"`: Main source code folder, home of core (non-XP-specific) React4xp source code
  
@@ -83,7 +83,7 @@ Override-able attributes and their default values are:
   
   - `EXTERNALS = { "react": "React", "react-dom": "ReactDOM", "react-dom/server": "ReactDOMServer" }`: externals (non-React4xp, non-vendors) libraries needed to be runtime-available by these names, to both client and react serverside-rendering.
   
-...and finally, names for five different files. Four of them summarize the dynamic output from different React4xp built steps, allowing the runtime to handle dependencies with unpredictable names, as well as tracing chunk dependencies for specific components. The last one is used on the backend to enable the Nashorn engine to render server-side React.
+...and names for some files. The first four are auto-built files that summarize the dynamic output from different React4xp built steps, allowing the runtime to handle dependencies with unpredictable names, as well as tracing chunk dependencies for specific components... 
   
   - `CLIENT_CHUNKS_FILENAME = "chunks.client.json"`,
   
@@ -93,9 +93,13 @@ Override-able attributes and their default values are:
   
   - `COMPONENT_STATS_FILENAME = "stats.components.json"`
   
-  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills"`
+The last file names are used to run code on the backend on app startup, to polyfill the *nashorn* engine so it can render Server-Side React (SSR is a native function of React that is made to run on *node*, not nashorn - therefore some polyfilling is needed):
   
-Two other parameters that can be set in the `overrides` object - won't change output but adjust behavior when running:
+  - `NASHORNPOLYFILLS_SOURCE`: No default value, since lib-react4xp comes with a basic nashorn polyfill by default and will run the most common scenarios without anything else. `NASHORNPOLYFILLS_SOURCE` is used to point to an uncompiled source file with _additional_ polyfill code. Full file name with extension, relative to the root project (`rootDir`).   
+  
+  - `NASHORNPOLYFILLS_FILENAME = "nashornPolyfills"`: name of compiled output file for the extra nashorn polyfilling. No path or file extension, only file name.
+  
+Three more parameters can be set in the `overrides` object - won't change output but adjust behavior when running:
 
   - `outputFileName = "react4xp_constants.json"`: Running _react4xp-buildconstants_ will build 2 identical versions of the constants file: the _base_ file used in buildtime, and and a _copy_ put into the predicted build folder where the react4xp XP runtime lib will be imported (lib-react4xp-runtime). Setting the `outputFileName` here lets you specify where the base file will be built. Path relative to the project folder, and filename.
 
@@ -123,7 +127,6 @@ It builds a JSON file with the following attributes, with default or override va
   - `RELATIVE_BUILD_R4X`
   -	`BUILD_MAIN`
   - `BUILD_R4X`
-  - `NASHORNPOLYFILLS_FILENAME`
   - `CLIENT_CHUNKS_FILENAME`
   - `EXTERNALS_CHUNKS_FILENAME`
   - `COMPONENT_CHUNKS_FILENAME`
@@ -131,6 +134,10 @@ It builds a JSON file with the following attributes, with default or override va
   - `CHUNK_CONTENTHASH`
   - `EXTERNALS`
   
+...and maybe (see above):
+  - `NASHORNPOLYFILLS_SOURCE`
+  - `NASHORNPOLYFILLS_FILENAME`
+ 
 In addition, two more attributes are added to the output file. These can't be overridden.
   - `__meta__`: Describing the output file itself
   - `recommended`: Nice-to-have recommended settings (derived from the above) for these other react4xp libraries: 
@@ -143,7 +150,7 @@ A copy of the output file is also put in the predicted build location of the [Re
 
 ## Skipping this helper
 
-The important thing is the JSON file with the constants, so this helper is not strictly necessary - just easier. 
+The important thing is the JSON file with the constants, so this helper is not strictly necessary - just much easier. 
 
 If you want to roll your own file manually, **you must:** 
   1. stick to the format defined above, at least the upper-case attributes. The `recommended` attribute only contains suggestions, so far used in only one place: `src/webpack.config.js` in [the build-components step](https://www.npmjs.com/package/react4xp-build-components).

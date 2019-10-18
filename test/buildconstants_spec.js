@@ -28,7 +28,7 @@ describe("constants", ()=>{
             BUILD_MAIN: path.join(DIR_NAME, 'build', 'resources', 'main'),
             BUILD_R4X: path.join(DIR_NAME, 'build', 'resources', 'main', 'assets', 'react4xp'),
 
-            NASHORNPOLYFILLS_FILENAME: "nashornPolyfills",
+            // NASHORNPOLYFILLS_FILENAME: "nashornPolyfills",
             CLIENT_CHUNKS_FILENAME: "chunks.client.json",
             EXTERNALS_CHUNKS_FILENAME: "chunks.externals.json",
             ENTRIES_FILENAME: "entries.json",
@@ -538,6 +538,61 @@ describe("constants", ()=>{
             }).to.throw(Error);
 
             expect(fs.existsSync(outputFileName)).to.equal(false);
+        });
+
+        it("adds nashorn-polyfill-specific values if there is a NASHORNPOLYFILLS_SOURCE field among the inputs", () => {
+            const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "nashornsource_constants.json");
+
+            buildConstants(
+                DIR_NAME,
+                {
+                    NASHORNPOLYFILLS_SOURCE: "some/path/testPolyfills.es6",
+                    outputFileName,
+                    // verbose: true,
+                }
+            );
+
+            const actualOutput = deepFreeze(require(outputFileName));
+            // Just sampling a few unchanged ones
+            expect(actualOutput.NASHORNPOLYFILLS_SOURCE).to.equal("some/path/testPolyfills.es6");   // override value
+            expect(actualOutput.NASHORNPOLYFILLS_FILENAME).to.equal("nashornPolyfills");            // default value, since not in override
+        });
+
+        it("allows override of NASHORNPOLYFILLS_FILENAME if there is a NASHORNPOLYFILLS_SOURCE field among the inputs", () => {
+            const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "nashornfilename_constants.json");
+
+            buildConstants(
+                DIR_NAME,
+                {
+                    NASHORNPOLYFILLS_SOURCE: "some/path/testPolyfills.es6",
+                    NASHORNPOLYFILLS_FILENAME: "whyEvenChangeThis",
+                    outputFileName,
+                    // verbose: true,
+                }
+            );
+
+            const actualOutput = deepFreeze(require(outputFileName));
+            // Just sampling a few unchanged ones
+            expect(actualOutput.NASHORNPOLYFILLS_SOURCE).to.equal("some/path/testPolyfills.es6");   // override value
+            expect(actualOutput.NASHORNPOLYFILLS_FILENAME).to.equal("whyEvenChangeThis");           // override value
+        });
+
+        it("ignores override of NASHORNPOLYFILLS_FILENAME if there is no NASHORNPOLYFILLS_SOURCE field among the inputs", () => {
+            const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "nashornnosource_constants.json");
+
+            buildConstants(
+                DIR_NAME,
+                {
+                    NASHORNPOLYFILLS_FILENAME: "whyEvenChangeThis",
+                    outputFileName,
+                    // verbose: true,
+                }
+            );
+
+            const actualOutput = deepFreeze(require(outputFileName));
+            // Just sampling a few unchanged ones
+            expect(actualOutput.NASHORNPOLYFILLS_SOURCE).to.equal(undefined);
+            expect(actualOutput.NASHORNPOLYFILLS_FILENAME).to.equal(undefined);
         });
     });
 });
