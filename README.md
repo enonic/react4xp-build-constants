@@ -32,20 +32,18 @@ npm add --save-dev react4xp-buildconstants
 In Node context:
 ```EcmaScript6
 const buildConstants = require('react4xp-buildconstants');
-buildConstants(rootDir, outputFile [, overrides])
+buildConstants(rootDir [, overrides])
 ```
 
 Standalone, from command-line with Node installed:
 ```bash
-node_modules/react4xp-buildconstants/cli.js rootDir outputFile [overrides]
+node_modules/react4xp-buildconstants/cli.js rootDir [overrides]
 ```
 
 
 ### Parameters
 
 `rootDir` (string): the root directory of the React4XP project. Must exist.
-
-`outputFile` (string): the name of the JSON file where the constants are stored. If it doesn't end in `.json`, that extension will be added. It can / should be a full path-and-filename (in system-appropriate format). But if it's only a file name, the output file will be created in `rootDir`. Default behavior is to NOT overwrite the file if it already exists, but overwriting can be enabled (see `overwriteConstantsFile` below). Will try to create folder if path doesn't exist.
 
 `overrides` (optional. JSON object or JSON-parsable string): Override the default value(s) of output attributes by adding the same key and a new value here. This can be done for each __output value__ specifically, and/or by setting the __base values__ if the output value is derived from one or more common base values. Some but not all base values will be part of [the Output](#output). Overriding base values allow you to control the several output values at once, which can be simpler, more consistent, and safer - recommended. 
 
