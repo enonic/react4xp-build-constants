@@ -6,25 +6,25 @@ const ME = typeof __filename !== "undefined" ? `: ${__filename}` : '';  // eslin
 
 const STANDARD_OUTPUT_FILENAME = "react4xp_constants.json";
 
-/** Builds and outputs a constants JSON file, for shared React4xp constants that are needed across 
- *  contexts, buildtime/runtime and languages. 
+/** Builds and outputs a constants JSON file, for shared React4xp constants that are needed across
+ *  contexts, buildtime/runtime and languages.
  *  @param rootDir The project root.
  *  @param overrides An object where you can insert any of these values to control them in the output field:
- *      { 
- *          BUILD_ENV, LIBRARY_NAME, R4X_HOME, R4X_ENTRY_SUBFOLDER, SRC_MAIN, SITE_SUBFOLDER, SUBFOLDER_BUILD_MAIN, 
+ *      {
+ *          BUILD_ENV, LIBRARY_NAME, R4X_HOME, R4X_ENTRY_SUBFOLDER, SRC_MAIN, SITE_SUBFOLDER, SUBFOLDER_BUILD_MAIN,
  *          EXTERNALS, BUILD_MAIN, R4X_TARGETSUBDIR, SRC_R4X, BUILD_R4X, RELATIVE_BUILD_R4X, SRC_SITE, SRC_R4X_ENTRIES,
  *          NASHORNPOLYFILLS_SOURCE, NASHORNPOLYFILLS_FILENAME,
  *          CLIENT_CHUNKS_FILENAME, EXTERNALS_CHUNKS_FILENAME, COMPONENT_CHUNKS_FILENAME, ENTRIESSOURCE,
  *      }
  *  Overrides can also have a "verbose" parameter, which will cause logging of the values if true.
  *  Overrides can also have a "outputFileName" parameter, controlling the path and name of the output constants JSON files
- *  Overrides can also have a "overwriteConstantsFile" parameter. If this is true, and only then, 
+ *  Overrides can also have a "overwriteConstantsFile" parameter. If this is true, and only then,
  *  will an existing constants file on the target outputfile path be overwritten.
  *
  *  Overrides can be an object, or a string that can be JSON parsed into an object.
  *
  *  @returns Only the necessary fields are returned:
- *      { 
+ *      {
         BUILD_ENV,
         LIBRARY_NAME,
         R4X_HOME, SITE_SUBFOLDER, SRC_SITE,
@@ -62,7 +62,7 @@ const buildConstants = (rootDir, overrides) => {
     const verboseLog = (overrides.verbose || overrides.VERBOSE) ?
         console.log :
         function () {};
-    
+
     verboseLog("Generating React4XP build constants JSON file:");
     let outputFile = overrides.outputFileName || STANDARD_OUTPUT_FILENAME;
     outputFile = (outputFile + "").trim();
@@ -75,10 +75,10 @@ const buildConstants = (rootDir, overrides) => {
     if (outputFile.indexOf(path.sep) === -1) {
         outputFile = path.join(rootDir, outputFile);
     }
-    verboseLog("\t" + outputFile);
+    verboseLog(outputFile);
 
     if (overrides && Object.keys(overrides).length > 0) {
-        verboseLog("\tOverrides: " + JSON.stringify(overrides, null, 2));
+        verboseLog("\nOverrides: " + JSON.stringify(overrides, null, 2) + "\n");
     }
 
 
@@ -87,13 +87,13 @@ const buildConstants = (rootDir, overrides) => {
             throw Error("outputFile name seems to point to a directory: " + JSON.stringify(outputFile));
         }
         if (!(overrides.overwriteConstantsFile || overrides.OVERWRITE_CONSTANTS_FILE)) {
-            verboseLog("\tFile exists. Overwrite not enabled - exiting.");
+            verboseLog("File exists. Overwrite not enabled - exiting.");
             return;
 
         } else {
-            verboseLog("\t\tFile exists - but overwriteConstantsFile is enabled!");
+            verboseLog("File exists - but overwriteConstantsFile is enabled!");
         }
-    } 
+    }
 
     const defaultConstants = {
         BUILD_ENV: /*'production'; /*/ 'development',
@@ -151,25 +151,25 @@ const buildConstants = (rootDir, overrides) => {
 
     const constants = Object.assign(defaultConstants, overrides);
 
-    // -------------------------- Derived values from the values above. 
+    // -------------------------- Derived values from the values above.
     // Can be changed by overriding the values above that build them, or overridden directly.
     // Clarifying comments for un-overridden values:
 
     // <project>build/resources/main
     constants.BUILD_MAIN = constants.BUILD_MAIN || path.join(rootDir, constants.SUBFOLDER_BUILD_MAIN);
-    
+
     // <project>/src/main/react4xp
     constants.SRC_R4X = constants.SRC_R4X || path.join(constants.SRC_MAIN, constants.R4X_HOME);
 
     // <project>build/resources/main/assets/react4xp
     constants.BUILD_R4X = constants.BUILD_R4X || path.join(constants.BUILD_MAIN, constants.R4X_TARGETSUBDIR);
-    
+
     // build/resources/main/assets/react4xp
     constants.RELATIVE_BUILD_R4X = constants.RELATIVE_BUILD_R4X || path.join(constants.SUBFOLDER_BUILD_MAIN, constants.R4X_TARGETSUBDIR);
-    
+
     // <project>/src/main/resources/site
     constants.SRC_SITE = constants.SRC_SITE || path.join(constants.SRC_MAIN, constants.SITE_SUBFOLDER);
-    
+
     // <project>/src/main/resources/react4xp/_entries
     constants.SRC_R4X_ENTRIES = constants.SRC_R4X_ENTRIES || path.join(constants.SRC_R4X, constants.R4X_ENTRY_SUBFOLDER);
 
@@ -231,13 +231,13 @@ const buildConstants = (rootDir, overrides) => {
         "__meta__": "This file was generated by react4xp-build-constants" + ME,
     }, null, 2);
 
-    verboseLog("\tProduced constants: " + asJson);
+    verboseLog("\nProduced constants: " + asJson + "\n");
 
     // Puts the output file where it was requested - predictable from the build caller:
     ensureTargetOutputPath(outputFile, verboseLog);
     fs.writeFileSync(outputFile, asJson);
     if (fs.existsSync(outputFile)) {
-        verboseLog("\t--> " + outputFile);
+        verboseLog("--> " + outputFile);
 
     } else {
         throw Error("My efforts to create react4xp config file were fruitless: no " + outputFile);
@@ -249,13 +249,13 @@ const buildConstants = (rootDir, overrides) => {
     ensureTargetOutputPath(fullCopyName, verboseLog);
     fs.writeFileSync(fullCopyName, asJson);
     if (fs.existsSync(fullCopyName)) {
-        verboseLog("\t--> " + fullCopyName);
+        verboseLog("--> " + fullCopyName);
 
     } else {
         throw Error("My efforts to copy the react4xp config file were fruitless: no " + fullCopyName);
     }
 
-    verboseLog("\tOk, done.");
+    verboseLog("\nOk, react4xp-buildconstants is done.\n");
 };
 
 module.exports = buildConstants;
