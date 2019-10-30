@@ -22,7 +22,7 @@
     "copy": "copyfiles --flat src/*.json lib",
     "eslint": "node_modules/eslint/bin/eslint.js src/",
     "pretest": "npm run eslint && npm run clean && npm run copy && npm run compile",
-    "test": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\" && bin/cli.js test/output && path-exists test/output/react4xp_constants.json && path-exists test/output/build/resources/main/lib/enonic/react4xp/react4xp_constants.json",
+    "test": "NODE_PATH=./ mocha --compilers js:babel-core/register --require babel-polyfill --require test/test_helper.js \"test/**/*@(.js)\" && mkdir test/output/cli; bin/cli.js test/output/cli && path-exists test/output/cli/react4xp_constants.json && path-exists test/output/cli/build/resources/main/lib/enonic/react4xp/react4xp_constants.json",
     "prepublish": "npm run test",
     "postpublish": "npm run clean"
   },
