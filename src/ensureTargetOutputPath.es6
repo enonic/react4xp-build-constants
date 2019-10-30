@@ -5,7 +5,7 @@ function ensureTargetOutputPath(outputFile, verboseLog) {
     verboseLog = verboseLog || function () {};
     
     if (outputFile.indexOf(path.sep) === -1) {
-        throw Error("Not a valid <path>" + path.sep + "<filename>.json: " + outputFile);
+        outputFile = '.' + path.sep + outputFile;
     }
 
     const targetPathArr = outputFile.split(path.sep);

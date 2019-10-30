@@ -37,7 +37,7 @@ buildConstants(rootDir [, overrides])
 
 Standalone, from command-line with Node installed:
 ```bash
-react4xp-buildconstants rootDir [overrides]
+npx react4xp-buildconstants rootDir [overrides]
 ```
 
 
