@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import buildConstants from "../src";
+import buildConstants from "..";
 
 const [, , ...argv] = process.argv; // eslint-disable-line no-undef
 
