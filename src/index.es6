@@ -96,7 +96,7 @@ const buildConstants = (rootDir, overrides) => {
     }
 
     const defaultConstants = {
-        BUILD_ENV: /*'production'; /*/ 'development',
+        BUILD_ENV: 'production',
 
         LIBRARY_NAME: 'React4xp',
 
@@ -177,6 +177,10 @@ const buildConstants = (rootDir, overrides) => {
     constants.recommended = {
         buildEntriesAndChunks: {
             ENTRY_SETS: [
+                {
+                    sourcePath: path.join(rootDir, "node_modules", "react4xp-templates", "_entries"),
+                    sourceExtensions: ['jsx', 'js', 'es6']     // TODO: ts? tsx?
+                },
                 {
                     sourcePath: constants.SRC_R4X_ENTRIES,
                     sourceExtensions: ['jsx', 'js', 'es6'],     // TODO: ts? tsx?

@@ -15,7 +15,7 @@ describe("constants", ()=>{
     describe(".buildConstants", ()=> {
 
         const EXPECTED_DEFAULT_OUTPUT = deepFreeze({
-            BUILD_ENV: "development",
+            BUILD_ENV: "production",
             LIBRARY_NAME: "React4xp",
             SITE_SUBFOLDER: "site",
             SRC_SITE: path.join(DIR_NAME, 'src', 'main', 'resources', 'site'),
@@ -45,6 +45,10 @@ describe("constants", ()=>{
             recommended: {
                 buildEntriesAndChunks: {
                     ENTRY_SETS: [
+                        {
+                            sourcePath: path.join(DIR_NAME, "node_modules", "react4xp-templates", "_entries"),
+                            sourceExtensions: ["jsx", "js", "es6"],
+                        },
                         {
                             sourcePath: path.join(DIR_NAME, 'src', 'main', 'resources', 'react4xp', '_entries'),
                             sourceExtensions: ["jsx", "js", "es6"],
@@ -99,6 +103,10 @@ describe("constants", ()=>{
             expectedOutput.recommended = {
                 buildEntriesAndChunks: {
                     ENTRY_SETS: [
+                        {
+                            sourcePath: path.join(TEST_OUTPUT_ROOT, "node_modules", "react4xp-templates", "_entries"),
+                            sourceExtensions: ["jsx", "js", "es6"],
+                        },
                         {
                             sourcePath: path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'resources', 'react4xp', '_entries'),
                             sourceExtensions: ["jsx", "js", "es6"],
