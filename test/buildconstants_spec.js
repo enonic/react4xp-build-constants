@@ -19,11 +19,9 @@ describe("constants", ()=>{
             LIBRARY_NAME: "React4xp",
             SITE_SUBFOLDER: "site",
             SRC_SITE: path.join(DIR_NAME, 'src', 'main', 'resources', 'site'),
-            R4X_ENTRY_SUBFOLDER: "_entries",
             R4X_HOME: 'react4xp',
             R4X_TARGETSUBDIR: path.join('assets', 'react4xp'),
             SRC_R4X: path.join(DIR_NAME, 'src', 'main', 'resources', 'react4xp'),
-            SRC_R4X_ENTRIES: path.join(DIR_NAME, 'src', 'main', 'resources', 'react4xp', '_entries'),
             RELATIVE_BUILD_R4X: path.join('build', 'resources', 'main', 'assets', 'react4xp'),
             BUILD_MAIN: path.join(DIR_NAME, 'build', 'resources', 'main'),
             BUILD_R4X: path.join(DIR_NAME, 'build', 'resources', 'main', 'assets', 'react4xp'),
@@ -40,26 +38,6 @@ describe("constants", ()=>{
                 "react": "React",
                 "react-dom": "ReactDOM",
                 "react-dom/server": "ReactDOMServer",
-            },
-
-            recommended: {
-                buildEntriesAndChunks: {
-                    ENTRY_SETS: [
-                        {
-                            sourcePath: path.join(DIR_NAME, "node_modules", "react4xp-templates", "_entries"),
-                            sourceExtensions: ["jsx", "js", "es6"],
-                        },
-                        {
-                            sourcePath: path.join(DIR_NAME, 'src', 'main', 'resources', 'react4xp', '_entries'),
-                            sourceExtensions: ["jsx", "js", "es6"],
-                        },
-                        {
-                            sourcePath: path.join(DIR_NAME, 'src', 'main', 'resources', 'site'),
-                            sourceExtensions: ["jsx"],
-                            targetSubDir: "site",
-                        },
-                    ],
-                },
             },
         });
 
@@ -98,27 +76,7 @@ describe("constants", ()=>{
             expectedOutput.BUILD_MAIN = path.join(TEST_OUTPUT_ROOT, 'build', 'resources', 'main');
             expectedOutput.BUILD_R4X = path.join(TEST_OUTPUT_ROOT, 'build', 'resources', 'main', 'assets', 'react4xp');
             expectedOutput.SRC_R4X = path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'resources', 'react4xp');
-            expectedOutput.SRC_R4X_ENTRIES = path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'resources', 'react4xp', '_entries');
             expectedOutput.SRC_SITE = path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'resources', 'site');
-            expectedOutput.recommended = {
-                buildEntriesAndChunks: {
-                    ENTRY_SETS: [
-                        {
-                            sourcePath: path.join(TEST_OUTPUT_ROOT, "node_modules", "react4xp-templates", "_entries"),
-                            sourceExtensions: ["jsx", "js", "es6"],
-                        },
-                        {
-                            sourcePath: path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'resources', 'react4xp', '_entries'),
-                            sourceExtensions: ["jsx", "js", "es6"],
-                        },
-                        {
-                            sourcePath: path.join(TEST_OUTPUT_ROOT, 'src', 'main', 'resources', 'site'),
-                            sourceExtensions: ["jsx"],
-                            targetSubDir: "site",
-                        },
-                    ],
-                },
-            };
 
 
             const actualOutput = require(outputFileName);
@@ -267,7 +225,6 @@ describe("constants", ()=>{
 
             // Just sampling a few unchanged ones
             expect(actualOutput.LIBRARY_NAME).to.equal(EXPECTED_DEFAULT_OUTPUT.LIBRARY_NAME);
-            expect(actualOutput.R4X_ENTRY_SUBFOLDER).to.equal(EXPECTED_DEFAULT_OUTPUT.R4X_ENTRY_SUBFOLDER);
             expect(actualOutput.EXTERNALS).to.deep.equal(EXPECTED_DEFAULT_OUTPUT.EXTERNALS);
 
             // Just sampling two changed ones
@@ -284,7 +241,6 @@ describe("constants", ()=>{
             buildConstants(
                 DIR_NAME,
                 {
-                    R4X_ENTRY_SUBFOLDER: "thisWasPreviously_entries",
                     SITE_SUBFOLDER: "thisWasPreviouslySite",
                     outputFileName,
                     //verbose: true,
@@ -298,7 +254,6 @@ describe("constants", ()=>{
             expect(actualOutput.EXTERNALS).to.deep.equal(EXPECTED_DEFAULT_OUTPUT.EXTERNALS);
 
             // The two directly changed ones
-            expect(actualOutput.R4X_ENTRY_SUBFOLDER).to.equal("thisWasPreviously_entries");
             expect(actualOutput.SITE_SUBFOLDER).to.equal("thisWasPreviouslySite");
         });
 
@@ -325,9 +280,6 @@ describe("constants", ()=>{
 
             // All the derived changes:
             expect(actualOutput.SRC_R4X).to.equal(path.join(DIR_NAME, 'src', 'main', 'resources', 'thisWasPreviouslyReact4xp'));
-            expect(actualOutput.SRC_R4X_ENTRIES).to.equal(
-                path.join(DIR_NAME, 'src', 'main', 'resources', 'thisWasPreviouslyReact4xp', '_entries')
-            );
             expect(actualOutput.SRC_SITE).to.equal(path.join(DIR_NAME, 'src', 'main', 'resources', 'thisWasPreviouslySite'));
         });
 
@@ -352,7 +304,6 @@ describe("constants", ()=>{
             expect(actualOutput.EXTERNALS).to.deep.equal(EXPECTED_DEFAULT_OUTPUT.EXTERNALS);
             expect(actualOutput.RELATIVE_BUILD_R4X).to.equal(EXPECTED_DEFAULT_OUTPUT.RELATIVE_BUILD_R4X);
             expect(actualOutput.SRC_R4X).to.equal(EXPECTED_DEFAULT_OUTPUT.SRC_R4X);
-            expect(actualOutput.SRC_R4X_ENTRIES).to.equal(EXPECTED_DEFAULT_OUTPUT.SRC_R4X_ENTRIES);
             // ...and notably:
             expect(actualOutput.SITE_SUBFOLDER).to.equal(EXPECTED_DEFAULT_OUTPUT.SITE_SUBFOLDER);
 
@@ -365,7 +316,6 @@ describe("constants", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "override_jsonstring_constants.json");
 
             const overrides = '{' +
-                '"R4X_ENTRY_SUBFOLDER": "thisWasPreviously_entries", ' +
                 '"SITE_SUBFOLDER": "C:\\\\a\\\\windows\\\\path\\\\that\\\\was\\\\previously\\\\site", ' +
                 '"EXTERNALS": {' +
                 '"foo": "foofoo",' +
@@ -387,7 +337,6 @@ describe("constants", ()=>{
             expect(actualOutput.BUILD_ENV).to.deep.equal(EXPECTED_DEFAULT_OUTPUT.BUILD_ENV);
 
             // The two directly changed ones
-            expect(actualOutput.R4X_ENTRY_SUBFOLDER).to.equal("thisWasPreviously_entries");
             expect(actualOutput.SITE_SUBFOLDER).to.equal("C:\\a\\windows\\path\\that\\was\\previously\\site");
             expect(actualOutput.EXTERNALS).to.deep.equal({
                 foo: "foofoo",
@@ -401,7 +350,6 @@ describe("constants", ()=>{
             const outputFileName = path.join(TEST_OUTPUT_ROOT, "deep", "path", "bad_jsonstring_constants.json");
 
             const overrides = '{' +
-                '"R4X_ENTRY_SUBFOLDER": "thisWasPreviously_entries", ' +
                 '"SITE_SUBFOLDER: "thisWasPreviouslySite", ' +
                 '"outputFileName": ' + JSON.stringify(outputFileName) +
                 // ', "verbose": true ' +
@@ -427,14 +375,14 @@ describe("constants", ()=>{
             expect(()=>{
                 buildConstants(
                     root,
-                    '[ "R4X_ENTRY_SUBFOLDER", "SITE_SUBFOLDER" ]',
+                    '[ "EXTERNALS", "SITE_SUBFOLDER" ]',
                 );
             }).to.throw(Error);
 
             expect(()=>{
                 buildConstants(
                     root,
-                    [ "R4X_ENTRY_SUBFOLDER", "SITE_SUBFOLDER" ],
+                    [ "EXTERNALS", "SITE_SUBFOLDER" ],
                 );
             }).to.throw(Error);
 

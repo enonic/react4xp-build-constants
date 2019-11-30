@@ -11,10 +11,10 @@ const STANDARD_OUTPUT_FILENAME = "react4xp_constants.json";
  *  @param rootDir The project root.
  *  @param overrides An object where you can insert any of these values to control them in the output field:
  *      {
- *          BUILD_ENV, LIBRARY_NAME, R4X_HOME, R4X_ENTRY_SUBFOLDER, SRC_MAIN, SITE_SUBFOLDER, SUBFOLDER_BUILD_MAIN,
- *          EXTERNALS, BUILD_MAIN, R4X_TARGETSUBDIR, SRC_R4X, BUILD_R4X, RELATIVE_BUILD_R4X, SRC_SITE, SRC_R4X_ENTRIES,
+ *          BUILD_ENV, LIBRARY_NAME, R4X_HOME, SRC_MAIN, SITE_SUBFOLDER, SUBFOLDER_BUILD_MAIN,
+ *          EXTERNALS, BUILD_MAIN, R4X_TARGETSUBDIR, SRC_R4X, BUILD_R4X, RELATIVE_BUILD_R4X, SRC_SITE,
  *          NASHORNPOLYFILLS_SOURCE, NASHORNPOLYFILLS_FILENAME,
- *          CLIENT_CHUNKS_FILENAME, EXTERNALS_CHUNKS_FILENAME, COMPONENT_CHUNKS_FILENAME, ENTRIESSOURCE,
+ *          CLIENT_CHUNKS_FILENAME, EXTERNALS_CHUNKS_FILENAME, COMPONENT_CHUNKS_FILENAME,
  *      }
  *  Overrides can also have a "verbose" parameter, which will cause logging of the values if true.
  *  Overrides can also have a "outputFileName" parameter, controlling the path and name of the output constants JSON files
@@ -28,7 +28,7 @@ const STANDARD_OUTPUT_FILENAME = "react4xp_constants.json";
         BUILD_ENV,
         LIBRARY_NAME,
         R4X_HOME, SITE_SUBFOLDER, SRC_SITE,
-        R4X_TARGETSUBDIR, R4X_ENTRY_SUBFOLDER, SRC_R4X, SRC_R4X_ENTRIES,
+        R4X_TARGETSUBDIR, SRC_R4X,
         RELATIVE_BUILD_R4X, BUILD_MAIN, BUILD_R4X,
         CHUNK_CONTENTHASH,
         NASHORNPOLYFILLS_SOURCE, NASHORNPOLYFILLS_FILENAME,
@@ -103,10 +103,6 @@ const buildConstants = (rootDir, overrides) => {
         R4X_HOME: 'react4xp',
         R4X_TARGETSUBDIR: 'assets/react4xp',
 
-        // Special-case subdirectory under R4X_HOME (/react4xp/). All files under this will be their own chunk, for dynamic, on-demand
-        // asset loading of top-level components, which in turn uses shared components chunked under all other subdirectories.
-        R4X_ENTRY_SUBFOLDER: '_entries',
-
         SRC_MAIN: path.join(rootDir, 'src', 'main', 'resources'),        // <project>/src/main/resources
 
         SITE_SUBFOLDER: 'site',
@@ -170,31 +166,6 @@ const buildConstants = (rootDir, overrides) => {
     // <project>/src/main/resources/site
     constants.SRC_SITE = constants.SRC_SITE || path.join(constants.SRC_MAIN, constants.SITE_SUBFOLDER);
 
-    // <project>/src/main/resources/react4xp/_entries
-    constants.SRC_R4X_ENTRIES = constants.SRC_R4X_ENTRIES || path.join(constants.SRC_R4X, constants.R4X_ENTRY_SUBFOLDER);
-
-    // Recommended defaults, not overridable:
-    constants.recommended = {
-        buildEntriesAndChunks: {
-            ENTRY_SETS: [
-                {
-                    sourcePath: path.join(rootDir, "node_modules", "react4xp-templates", "_entries"),
-                    sourceExtensions: ['jsx', 'js', 'es6']     // TODO: ts? tsx?
-                },
-                {
-                    sourcePath: constants.SRC_R4X_ENTRIES,
-                    sourceExtensions: ['jsx', 'js', 'es6'],     // TODO: ts? tsx?
-                },
-                {
-                    sourcePath: constants.SRC_SITE,
-                    sourceExtensions: ['jsx'],                  // TODO: tsx?
-                    targetSubDir: constants.SITE_SUBFOLDER,
-                },
-            ],
-        },
-    };
-
-
     //-------------------------------------- Output
 
     // Select fields for output
@@ -202,7 +173,7 @@ const buildConstants = (rootDir, overrides) => {
         BUILD_ENV,
         LIBRARY_NAME,
         R4X_HOME, SITE_SUBFOLDER, SRC_SITE,
-        R4X_TARGETSUBDIR, R4X_ENTRY_SUBFOLDER, SRC_R4X, SRC_R4X_ENTRIES,
+        R4X_TARGETSUBDIR, SRC_R4X,
         RELATIVE_BUILD_R4X, BUILD_MAIN, BUILD_R4X,
         CHUNK_CONTENTHASH,
         CLIENT_CHUNKS_FILENAME, EXTERNALS_CHUNKS_FILENAME, ENTRIES_FILENAME, COMPONENT_STATS_FILENAME,
@@ -214,7 +185,7 @@ const buildConstants = (rootDir, overrides) => {
         BUILD_ENV,
         LIBRARY_NAME,
         R4X_HOME, SITE_SUBFOLDER, SRC_SITE,
-        R4X_TARGETSUBDIR, R4X_ENTRY_SUBFOLDER, SRC_R4X, SRC_R4X_ENTRIES,
+        R4X_TARGETSUBDIR, SRC_R4X,
         RELATIVE_BUILD_R4X, BUILD_MAIN, BUILD_R4X,
         CHUNK_CONTENTHASH,
         CLIENT_CHUNKS_FILENAME, EXTERNALS_CHUNKS_FILENAME, ENTRIES_FILENAME, COMPONENT_STATS_FILENAME,

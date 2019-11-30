@@ -65,11 +65,7 @@ Override-able attributes (and their default values if they are not filled in) ar
 
   - `SRC_SITE = "<rootDir>/src/main/resources/site"`: _full path_ to the folder where the XP site structure is found. Derived from `SRC_MAIN + "resources" + SITE_SUBFOLDER`.
   
-  - `R4X_ENTRY_SUBFOLDER = "_entries"`: name of the _subfolder_ inside the core react4xp folder where react4xp during buildtime will look for general (not bound to specific XP components) _entry files_ (entries are non-shared, first-level components, runnable in both the client and in XP after transpilation)
-  
   - `SRC_R4X = "<rootDir>/src/main/resources/react4xp"`: _full path_ to the main react4xp source folder, home of core (non-XP-specific) React4xp source code. Derived from `SRC_MAIN + R4X_HOME`.
-  
-  - `SRC_R4X_ENTRIES = "<rootDir>/src/main/resources/react4xp/_entries"`: _full path_ to the entries source folder. Derived from `SRC_R4X + R4X_ENTRY_SUBFOLDER`.
   
   - `RELATIVE_BUILD_R4X = "build/resources/main/assets/react4xp"`: _relative path_ to the target react4xp build folder. Derived from `SUBFOLDER_BUILD_MAIN + R4X_TARGETSUBDIR`.
   
@@ -119,9 +115,7 @@ It builds a JSON file with the following attributes, with default or override va
   - `SITE_SUBFOLDER`
   - `SRC_SITE`
   - `R4X_TARGETSUBDIR`
-  - `R4X_ENTRY_SUBFOLDER`
   - `SRC_R4X`
-  - `SRC_R4X_ENTRIES`
   - `RELATIVE_BUILD_R4X`
   -	`BUILD_MAIN`
   - `BUILD_R4X`
@@ -136,10 +130,8 @@ It builds a JSON file with the following attributes, with default or override va
   - `NASHORNPOLYFILLS_SOURCE`
   - `NASHORNPOLYFILLS_FILENAME`
  
-In addition, two more attributes are added to the output file. These can't be overridden.
+In addition, one more attribute is added to the output file. It can't be overridden.
   - `__meta__`: Describing the output file itself
-  - `recommended`: Nice-to-have recommended settings (derived from the above) for these other react4xp libraries: 
-    - `buildEntriesAndChunks`: react4xp-build-entriesandchunks 
   
 A copy of the output file is also put in the predicted build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json` 
 
@@ -151,7 +143,7 @@ A copy of the output file is also put in the predicted build location of the [Re
 The important thing is the JSON file with the constants, so this helper is not strictly necessary - just much easier. 
 
 If you want to roll your own file manually, **you must:** 
-  1. stick to the format defined above, at least the upper-case attributes. The `recommended` attribute only contains suggestions, so far used in only one place: `src/webpack.config.js` in [the build-components step](https://www.npmjs.com/package/react4xp-build-components).
+  1. stick to the format defined above, at least the upper-case attributes.
   2. refer to the file in the other steps as mentioned in their documentation, and 
   3. make a copy of it in the build location of the [React4xp runtime lib](https://github.com/enonic/lib-react4xp): `<BUILD_MAIN>/lib/enonic/react4xp/react4xp_constants.json`
 
